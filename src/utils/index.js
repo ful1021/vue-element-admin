@@ -17,10 +17,10 @@ export function parseTime(time, cFormat) {
   if (typeof time === 'object') {
     date = time
   } else {
-    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
+    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
       time = parseInt(time)
     }
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
+    if (typeof time === 'number' && time.toString().length === 10) {
       time = time * 1000
     }
     date = new Date(time)
@@ -37,7 +37,9 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -119,7 +121,7 @@ export function byteLength(str) {
     const code = str.charCodeAt(i)
     if (code > 0x7f && code <= 0x7ff) s++
     else if (code > 0x7ff && code <= 0xffff) s += 2
-    if (code >= 0xDC00 && code <= 0xDFFF) i--
+    if (code >= 0xdc00 && code <= 0xdfff) i--
   }
   return s
 }
@@ -347,4 +349,105 @@ export function removeClass(ele, cls) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
   }
+}
+
+export function clonedeep(obj) {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj
+  }
+
+  if (obj instanceof Date) {
+    return new Date(obj.getTime())
+  }
+
+  if (obj instanceof Array) {
+    return obj.reduce((arr, item, i) => {
+      arr[i] = clonedeep(item)
+      return arr
+    }, [])
+  }
+
+  if (obj instanceof Object) {
+    return Object.keys(obj).reduce((newObj, key) => {
+      newObj[key] = clonedeep(obj[key])
+      return newObj
+    }, {})
+  }
+}
+
+export function createNamespace(root, ns) {
+  var parts = ns.split('.')
+  for (var i = 0; i < parts.length; i++) {
+    if (typeof root[parts[i]] === 'undefined') {
+      root[parts[i]] = {}
+    }
+
+    root = root[parts[i]]
+  }
+
+  return root
+}
+
+export function buildQueryString(parameterInfos, includeQuestionMark) {
+  if (includeQuestionMark === undefined) {
+    includeQuestionMark = true
+  }
+
+  var qs = ''
+
+  function addSeperator() {
+    if (!qs.length) {
+      if (includeQuestionMark) {
+        qs = qs + '?'
+      }
+    } else {
+      qs = qs + '&'
+    }
+  }
+
+  for (var i = 0; i < parameterInfos.length; ++i) {
+    var parameterInfo = parameterInfos[i]
+    if (parameterInfo.value === undefined) {
+      continue
+    }
+
+    if (parameterInfo.value === null) {
+      parameterInfo.value = ''
+    }
+
+    addSeperator()
+
+    if (
+      parameterInfo.value.toJSON &&
+      typeof parameterInfo.value.toJSON === 'function'
+    ) {
+      qs =
+        qs +
+        parameterInfo.name +
+        '=' +
+        encodeURIComponent(parameterInfo.value.toJSON())
+    } else if (
+      Array.isArray(parameterInfo.value) &&
+      parameterInfo.value.length
+    ) {
+      for (var j = 0; j < parameterInfo.value.length; j++) {
+        if (j > 0) {
+          addSeperator()
+        }
+
+        qs =
+          qs +
+          parameterInfo.name +
+          '[' +
+          j +
+          ']=' +
+          encodeURIComponent(parameterInfo.value[j])
+      }
+    } else {
+      qs =
+        qs + parameterInfo.name + '=' + encodeURIComponent(parameterInfo.value)
+    }
+  }
+
+  return qs
 }
