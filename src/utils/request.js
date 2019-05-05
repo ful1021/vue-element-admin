@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  withCredentials: true, // send cookies when cross-domain requests
+  withCredentials: false, // send cookies when cross-domain requests
   headers: { 'Content-Type': 'application/json' },
   responseType: 'json', // 服务器返回的数据类型
   timeout: 5000 // request timeout
@@ -20,7 +20,7 @@ service.interceptors.request.use(
     if (store.getters.token) {
       // let each request carry token --['X-Token'] as a custom key.
       // please modify it according to the actual situation.
-      config.headers['X-Token'] = getToken()
+      config.headers['Authorization'] = getToken()
     }
     return config
   },
@@ -45,6 +45,9 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
+    if (res.result) {
+      return res.result
+    }
     return res
     // // if the custom code is not 20000, it is judged as an error.
     // if (res.code !== 20000) {

@@ -1,12 +1,7 @@
 import request from '@/utils/request'
+import abp from '@/utils/abp'
 // const clonedeep = require('lodash.clonedeep')
-import { clonedeep, buildQueryString } from '@/utils'
-
-const abp = {
-  utils: {
-    buildQueryString: buildQueryString
-  }
-}
+import { clonedeep } from '@/utils'
 
 // module 'app'
 const app = {

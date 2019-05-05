@@ -20,6 +20,10 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+import request from '@/utils/request'
+import abp from '@/utils/abp'
+import { clonedeep } from '@/utils'
+
 /**
  * If you don't want to use mock-server
  * you want to use mockjs for request interception
@@ -41,10 +45,17 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 
-new Vue({
-  el: '#app',
-  router,
-  store,
-  i18n,
-  render: h => h(App)
+Promise.all([
+  request.get('/AbpUserConfiguration/GetAll')
+  // , ajax.get('/AbpServiceProxies/GetAll?type=vue')
+]).then(values => {
+  window.abp = clonedeep(abp, values[0])
+
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    i18n,
+    render: h => h(App)
+  })
 })
