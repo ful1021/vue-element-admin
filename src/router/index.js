@@ -210,7 +210,11 @@ export const asyncRoutes = [
         path: 'edit/:id(\\d+)',
         component: () => import('@/views/example/edit'),
         name: 'EditArticle',
-        meta: { title: 'editArticle', noCache: true, activeMenu: '/example/list' },
+        meta: {
+          title: 'editArticle',
+          noCache: true,
+          activeMenu: '/example/list'
+        },
         hidden: true
       },
       {
@@ -399,11 +403,12 @@ export const asyncRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
@@ -411,6 +416,49 @@ const router = createRouter()
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
+}
+
+export const componentsMap = {
+  PagePermission: () => import('@/views/permission/page'),
+  DirectivePermission: () => import('@/views/permission/directive')
+}
+
+/**
+ *将后台的路由表进行格式化
+ * @param {*} asyncRouterMap
+ */
+export function convertRouter(asyncRouterMap) {
+  const accessedRouters = []
+  if (asyncRouterMap) {
+    asyncRouterMap.MainMenu.items.forEach(item => {
+      var parent = generateRouter(item, true)
+      var children = []
+      if (item.items) {
+        item.items.forEach(child => {
+          children.push(generateRouter(child, false))
+        })
+      }
+      parent.children = children
+      accessedRouters.push(parent)
+    })
+  }
+  accessedRouters.push({ path: '*', redirect: '/404', hidden: true })
+  return accessedRouters
+}
+export function generateRouter(item, isParent) {
+  const component = componentsMap[item.name]
+  const router = {
+    path: item.url,
+    name: item.name,
+    meta: {
+      title: item.displayName,
+      icon: item.icon
+    },
+    // component: isParent ? Layout : () => import(item.component)
+    component: isParent ? Layout : component
+  }
+
+  return router
 }
 
 export default router
