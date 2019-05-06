@@ -25,6 +25,7 @@
       "autoFix": true
     }
   ],
+  "editor.wordWrapColumn": 120, //默认值为80，即每行80字符时自动换行。
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

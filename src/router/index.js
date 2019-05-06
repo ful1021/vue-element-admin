@@ -210,7 +210,11 @@ export const asyncRoutes = [
         path: 'edit/:id(\\d+)',
         component: () => import('@/views/example/edit'),
         name: 'EditArticle',
-        meta: { title: 'Edit Article', noCache: true, activeMenu: '/example/list' },
+        meta: {
+          title: 'Edit Article',
+          noCache: true,
+          activeMenu: '/example/list'
+        },
         hidden: true
       },
       {
@@ -408,7 +412,6 @@ export const componentsMap = {
 }
 
 /**
- *将后台的路由表进行格式化
  * @param {*} asyncRouterMap
  */
 export function convertRouter(asyncRouterMap) {
@@ -429,7 +432,7 @@ export function convertRouter(asyncRouterMap) {
   accessedRouters.push({ path: '*', redirect: '/404', hidden: true })
   return accessedRouters
 }
-export function generateRouter(item, isParent) {
+function generateRouter(item, isParent) {
   const component = componentsMap[item.name]
   const router = {
     path: item.url,
