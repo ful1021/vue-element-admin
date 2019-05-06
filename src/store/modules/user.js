@@ -1,7 +1,7 @@
-import { logout } from '@/api/user'
 import { app } from '@/api/api'
 const login = app.tokenAuth.authenticate
 const getInfo = app.session.getCurrentLoginInformations
+const logout = app.tokenAuth.logOut
 
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'

@@ -40,6 +40,17 @@ const app = {
           ajaxParams
         )
       )
+    },
+    logOut(ajaxParams) {
+      return request(
+        clonedeep(
+          {
+            url: '/api/TokenAuth/LogOut',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
     }
   },
   user: {
