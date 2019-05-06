@@ -13,16 +13,11 @@ import App from './App'
 import store from './store'
 import router from './router'
 
-import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
-
-import request from '@/utils/request'
-import abp from '@/utils/abp'
-import { clonedeep } from '@/utils'
 
 /**
  * If you don't want to use mock-server
@@ -34,8 +29,7 @@ import { clonedeep } from '@/utils'
  */
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
-  i18n: (key, value) => i18n.t(key, value)
+  size: Cookies.get('size') || 'medium' // set element-ui default size
 })
 
 // register global utility filters
@@ -45,17 +39,9 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 
-Promise.all([
-  request.get('/AbpUserConfiguration/GetAll')
-  // , ajax.get('/AbpServiceProxies/GetAll?type=vue')
-]).then(values => {
-  window.abp = clonedeep(abp, values[0])
-
-  new Vue({
-    el: '#app',
-    router,
-    store,
-    i18n,
-    render: h => h(App)
-  })
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
 })
