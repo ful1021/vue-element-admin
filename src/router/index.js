@@ -407,8 +407,7 @@ export function resetRouter() {
 }
 
 export const componentsMap = {
-  PagePermission: () => import('@/views/permission/page'),
-  DirectivePermission: () => import('@/views/permission/directive')
+  RolePermission: () => import('@/views/system/role')
 }
 
 /**
