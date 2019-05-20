@@ -407,7 +407,8 @@ export function resetRouter() {
 }
 
 export const componentsMap = {
-  RolePermission: () => import('@/views/system/role')
+  RoleManager: () => import('@/views/system/role'),
+  UserManager: () => import('@/views/system/user')
 }
 
 /**

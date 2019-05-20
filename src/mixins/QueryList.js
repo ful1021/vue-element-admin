@@ -1,6 +1,7 @@
 import Pagination from '@/components/Pagination'
+import ToggleTableColumn from '@/components/ToggleTableColumn'
 export default {
-  components: { Pagination },
+  components: { Pagination, ToggleTableColumn },
   data() {
     return {
       tableKey: 0,
@@ -44,20 +45,59 @@ export default {
         this.getList(this.queryListHandler)
       }
     },
-    getList(queryListHandler, extFilters, callback) {
+    async getList(queryListHandler, extFilters, callback) {
       const input_data = Object.assign({}, this.filters, extFilters || {})
 
-      return queryListHandler(input_data).then(result => {
-        this.isShowLoading = false
-        this.tableData = result.items
-        this.pageConfig.total = result.totalCount
-        // this.refreshSelectRows()
+      const result = await queryListHandler(input_data)
 
-        if (callback && typeof callback === 'function') {
-          callback()
-        }
-      })
+      this.isShowLoading = false
+      this.tableData = result.items
+      this.pageConfig.total = result.totalCount
+      // this.refreshSelectRows()
+
+      if (callback && typeof callback === 'function') {
+        callback(result)
+      }
     },
+    // 数据列表全选事件
+    handleSelectAll(selection) {
+      this.selectRows = selection
+    },
+    handleSelectRow(selection, row) {
+      this.selectRows = selection
+    },
+
+    // 列表数据只能选择一个验证
+    selectOneValidate() {
+      if (this.selectRows.length !== 1) {
+        this.$message({
+          message: '请选择一个且只能选择一个需要操作的列表信息',
+          type: 'warning'
+        })
+        return false
+      }
+      return true
+    },
+    // 列表数据至少选择一个验证
+    selectLeastOneValidate() {
+      if (this.selectRows.length < 1) {
+        this.$message({
+          message: '至少选择一个需要操作的列表信息',
+          type: 'warning'
+        })
+        return false
+      }
+      return true
+    },
+
+    // 编辑操作预处理
+    preEdit(getHandler) {
+      if (this.selectOneValidate()) {
+        this.handleEdit(getHandler)
+      }
+    },
+    handleEdit(getHandler) {},
+
     // 重新验证当前选中的列表是否存在与当前的列表数据中
     refreshSelectRows() {
       if (this.selectRows.length === 0) {
