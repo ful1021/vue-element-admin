@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import query from '@/mixins/QueryList'
+import query from '@/mixins/query'
 import { app } from '@/api/api'
 
 export default {

@@ -11,7 +11,8 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  session: {}
 }
 
 const mutations = {
@@ -29,6 +30,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_SESSION: (state, session) => {
+    state.session = session
   }
 }
 
@@ -63,7 +67,7 @@ const actions = {
             reject('Verification failed, please Login again.')
           }
 
-          const { roles, name, avatar, introduction } = data
+          const { roles, name, avatar, introduction, session } = data
 
           // roles must be a non-empty array
           if (!roles || roles.length <= 0) {
@@ -71,6 +75,7 @@ const actions = {
           }
 
           commit('SET_ROLES', roles)
+          commit('SET_SESSION', session)
           commit('SET_NAME', name)
           commit('SET_AVATAR', avatar)
           commit('SET_INTRODUCTION', introduction)

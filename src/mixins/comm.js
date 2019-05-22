@@ -1,0 +1,31 @@
+import { app } from '@/api/api'
+export default {
+  guidEmpty: '00000000-0000-0000-0000-000000000000',
+
+  roleList: [],
+  // 初始化角色
+  async initRoles(paramData) {
+    const param = paramData || {}
+    const result = await app.user.getRoles(param)
+    this.roleList = result.items
+  },
+
+  // 批量获取枚举下拉数据
+  initEnum(name) {
+    app.enums.batchGetEnumList(name).then(result => {
+      for (const k in result) {
+        const key = k + 'List'
+        this[key] = result[k]
+      }
+    })
+  },
+
+  rootUrl: window.location.href.split('#')[0],
+  openPage(path) {
+    window.open(`${this.rootUrl}#${path}`)
+  }
+
+  // openFile(url) {
+  //   window.open(config.resourecePath + url, 'file')
+  // }
+}

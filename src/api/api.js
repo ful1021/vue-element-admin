@@ -410,6 +410,29 @@ const app = {
           ajaxParams
         )
       )
+    },
+    impersonate(input, ajaxParams) {
+      return request(
+        clonedeep(
+          {
+            url: '/api/services/app/Account/Impersonate',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    backToImpersonator(ajaxParams) {
+      return request(
+        clonedeep(
+          {
+            url: '/api/services/app/Account/BackToImpersonator',
+            method: 'POST'
+          },
+          ajaxParams
+        )
+      )
     }
   }
 }

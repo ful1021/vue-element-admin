@@ -1,9 +1,11 @@
 import Pagination from '@/components/Pagination'
 import ToggleTableColumn from '@/components/ToggleTableColumn'
+import comm from '@/mixins/comm'
 export default {
   components: { Pagination, ToggleTableColumn },
   data() {
     return {
+      comm: comm,
       tableKey: 0,
       isShowLoading: true,
       filters: {
@@ -71,7 +73,7 @@ export default {
     selectOneValidate() {
       if (this.selectRows.length !== 1) {
         this.$message({
-          message: '请选择一个且只能选择一个需要操作的列表信息',
+          message: '请选择且只能选择一个需要操作的列表信息',
           type: 'warning'
         })
         return false

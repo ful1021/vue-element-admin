@@ -38,6 +38,27 @@
       @selection-change="handleSelectAll"
     >
       <el-table-column type="selection" align="center" width="50" />
+      <el-table-column label="操作" width="120">
+        <template scope="scope">
+          <el-dropdown>
+            <el-button type="primary" size="small" icon="el-icon-s-tools">
+              操作
+              <i class="el-icon-arrow-down el-icon--right" />
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <el-link type="primary" width="100%" @click="impersonate(scope.row.id)">使用这个用户登录</el-link>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-link type="primary" width="100%" @click="editHandle(scope.row.id)">修改</el-link>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-link type="primary" width="100%" @click="lock(scope.row.id)">锁定</el-link>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </template>
+      </el-table-column>
       <el-table-column header-align="center" align="center" label="用户名" prop="userName" />
 
       <el-table-column
@@ -51,7 +72,7 @@
       </el-table-column>
       <el-table-column header-align="center" align="center" label="创建时间" prop="creationTime">
         <template slot-scope="scope">
-          <span>{{ new Date(scope.row.creationTime) | formatTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ new Date(scope.row.creationTime) | formatTime('{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -64,8 +85,8 @@
       @pagination="pageChange"
     />
 
-    <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow" size="large">
-      <AddOrEdit
+    <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
+      <add-or-edit
         :edit-id="addOrEditDialog.editId"
         @queryList="queryList"
         @close="addOrEditDialog.isShow=false"
@@ -75,7 +96,7 @@
 </template>
 
 <script>
-import query from '@/mixins/QueryList'
+import query from '@/mixins/query'
 import { app } from '@/api/api'
 import AddOrEdit from './AddOrEdit'
 
@@ -95,12 +116,16 @@ export default {
           colName: 'name'
         },
         {
-          label: '邮箱',
-          colName: 'emailAddress'
-        },
-        {
           label: '角色',
           colName: 'roleNames'
+        },
+        {
+          label: '手机号',
+          colName: 'phoneNumber'
+        },
+        {
+          label: '邮箱',
+          colName: 'emailAddress'
         },
         {
           label: '最后登录时间',
@@ -127,12 +152,33 @@ export default {
       this.addOrEditDialog.isShow = true
     },
     handleEdit() {
-      this.addOrEditDialog.editId = this.selectRows[0].id
+      this.editHandle(this.selectRows[0].id)
+    },
+    editHandle(editId) {
+      this.addOrEditDialog.editId = editId
       this.addOrEditDialog.title = '修改'
       this.addOrEditDialog.isShow = true
     },
+    lock(userId) {
+
+    },
     handleDownload() {
 
+    },
+
+    async impersonate(userId) {
+      const input = {
+        userId: userId
+        // tenantId: tenantId
+      }
+      const result = await app.account.impersonate(input)
+
+      let targetUrl = this.comm.rootUrl + '#?impersonationToken=' + result.impersonationToken
+      if (input.tenantId) {
+        targetUrl = targetUrl + '&tenantId=' + input.tenantId
+      }
+      console.log(targetUrl)
+      // location.href = targetUrl
     }
   }
 }
