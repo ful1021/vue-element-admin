@@ -39,22 +39,22 @@
     >
       <el-table-column type="selection" align="center" width="50" />
       <el-table-column label="操作" width="120">
-        <template scope="scope">
+        <template slot-scope="scope">
           <el-dropdown>
             <el-button type="primary" size="small" icon="el-icon-s-tools">
               操作
               <i class="el-icon-arrow-down el-icon--right" />
             </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <el-link type="primary" width="100%" @click="impersonate(scope.row.id)">使用这个用户登录</el-link>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-link type="primary" width="100%" @click="editHandle(scope.row.id)">修改</el-link>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-link type="primary" width="100%" @click="lock(scope.row.id)">锁定</el-link>
-              </el-dropdown-item>
+            <el-dropdown-menu slot="dropdown" style="width:150px">
+              <span v-show="session.userId!=scope.row.id" @click="impersonate(scope.row.id)">
+                <el-dropdown-item>使用这个用户登录</el-dropdown-item>
+              </span>
+              <span @click="editHandle(scope.row)">
+                <el-dropdown-item>修改</el-dropdown-item>
+              </span>
+              <span @click="lock(scope.row.id)">
+                <el-dropdown-item>锁定</el-dropdown-item>
+              </span>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -87,7 +87,7 @@
 
     <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
       <add-or-edit
-        :edit-id="addOrEditDialog.editId"
+        :from-input="addOrEditDialog.input"
         @queryList="queryList"
         @close="addOrEditDialog.isShow=false"
       />
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import query from '@/mixins/query'
 import { app } from '@/api/api'
 import AddOrEdit from './AddOrEdit'
@@ -137,11 +138,16 @@ export default {
         }
       ],
       addOrEditDialog: {
-        editId: 0,
         title: '',
+        input: {},
         isShow: false
       }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'session'
+    ])
   },
   methods: {
     queryList() {
@@ -152,10 +158,10 @@ export default {
       this.addOrEditDialog.isShow = true
     },
     handleEdit() {
-      this.editHandle(this.selectRows[0].id)
+      this.editHandle(this.selectRows[0])
     },
-    editHandle(editId) {
-      this.addOrEditDialog.editId = editId
+    editHandle(row) {
+      this.addOrEditDialog.input = row
       this.addOrEditDialog.title = '修改'
       this.addOrEditDialog.isShow = true
     },
@@ -168,8 +174,8 @@ export default {
 
     async impersonate(userId) {
       const input = {
-        userId: userId
-        // tenantId: tenantId
+        userId: userId,
+        tenantId: this.session.tenantId
       }
       const result = await app.account.impersonate(input)
 

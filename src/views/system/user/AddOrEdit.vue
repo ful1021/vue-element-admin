@@ -31,7 +31,7 @@
           >
             <el-input v-model="fromInput.emailAddress" />
           </el-form-item>
-          <div v-show="fromInput.id==0">
+          <div v-if="fromInput.id==0">
             <el-form-item
               prop="password"
               label="密码"
@@ -60,7 +60,7 @@
             <el-checkbox
               v-for="(item,index) in comm.roleList"
               :key="index"
-              :label="item.name"
+              :label="item.normalizedName"
             >{{ item.displayName }}</el-checkbox>
           </el-checkbox-group>
         </div>
@@ -108,14 +108,22 @@ export default {
   },
   methods: {
     saveHandler() {
-      this.validateConfirm(this.refFormName, () => {
+      let msg = '确定要新增？'
+      if (this.fromInput.id > 0) {
+        msg = '确定要修改？'
+      }
+      this.validateConfirm(this.refFormName, async() => {
         const input_data = Object.assign({}, this.fromInput)
         input_data.surname = this.fromInput.name
-        app.user.create(input_data).then(result => {
-          this.$emit('close')
-          this.$emit('queryList')
-        })
-      }, '确定要新增？')
+        if (input_data.id > 0) {
+          await app.user.update(input_data)
+        } else {
+          await app.user.create(input_data)
+        }
+
+        this.$emit('close')
+        this.$emit('queryList')
+      }, msg)
     },
     validatePass2(rule, value, callback) {
       if (value === '') {
