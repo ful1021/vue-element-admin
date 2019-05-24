@@ -116,7 +116,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import query from '@/mixins/query'
 import { app } from '@/api/api'
 import AddOrEdit from './AddOrEdit'
@@ -163,11 +162,6 @@ export default {
         isShow: false
       }
     }
-  },
-  computed: {
-    ...mapGetters([
-      'session'
-    ])
   },
   mounted() {
     console.log(abp.session)

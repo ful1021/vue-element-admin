@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       auth: abp.auth,
+      session: abp.session,
       comm: comm,
       tableKey: 0,
       isShowLoading: true,

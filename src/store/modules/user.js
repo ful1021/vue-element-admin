@@ -1,8 +1,7 @@
-import { app } from '@/api/api'
 import request from '@/utils/request'
 import abp from '@/utils/abp'
 import { clonedeep } from '@/utils'
-
+import { app } from '@/api/api'
 const login = app.tokenAuth.authenticate
 const getInfo = app.session.getCurrentLoginInformations
 const logout = app.tokenAuth.logOut
@@ -15,8 +14,7 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: [],
-  session: {}
+  roles: []
 }
 
 const mutations = {
@@ -34,9 +32,6 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
-  },
-  SET_SESSION: (state, session) => {
-    state.session = session
   }
 }
 
@@ -76,7 +71,7 @@ const actions = {
             reject('Verification failed, please Login again.')
           }
 
-          const { roles, name, avatar, introduction, session } = data
+          const { roles, name, avatar, introduction } = data
 
           // roles must be a non-empty array
           if (!roles || roles.length <= 0) {
@@ -84,11 +79,11 @@ const actions = {
           }
 
           commit('SET_ROLES', roles)
-          commit('SET_SESSION', session)
           commit('SET_NAME', name)
           commit('SET_AVATAR', avatar)
           commit('SET_INTRODUCTION', introduction)
-          resolve(data)
+
+          resolve(clonedeep(true, data, window.abp.nav))
         })
         .catch(error => {
           reject(error)
