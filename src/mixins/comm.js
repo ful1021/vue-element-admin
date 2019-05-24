@@ -2,6 +2,17 @@ import { app } from '@/api/api'
 export default {
   guidEmpty: '00000000-0000-0000-0000-000000000000',
 
+  boolList: [
+    {
+      text: '是',
+      value: 'true'
+    },
+    {
+      text: '否',
+      value: 'false'
+    }
+  ],
+
   roleList: [],
   // 初始化角色
   async initRoles(paramData) {

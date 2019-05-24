@@ -1,4 +1,8 @@
 import { app } from '@/api/api'
+import request from '@/utils/request'
+import abp from '@/utils/abp'
+import { clonedeep } from '@/utils'
+
 const login = app.tokenAuth.authenticate
 const getInfo = app.session.getCurrentLoginInformations
 const logout = app.tokenAuth.logOut
@@ -59,8 +63,13 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token)
-        .then(data => {
+      Promise.all([
+        request.get('/AbpUserConfiguration/GetAll'),
+        getInfo(state.token)
+      ])
+        .then(values => {
+          window.abp = clonedeep(true, abp, values[0])
+          const data = values[1]
           // const { data } = response
 
           if (!data) {

@@ -1,7 +1,27 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="filters.title" placeholder="标题" class="filter-item" />
+      <el-input
+        v-model="filters.keyword"
+        placeholder="用户名、姓名、邮箱"
+        style="width: 300px;"
+        class="filter-item"
+      />
+
+      <el-select
+        v-model="filters.isActive"
+        placeholder="是否激活"
+        clearable
+        style="width: 150px"
+        class="filter-item"
+      >
+        <el-option
+          v-for="(item,index) in comm.boolList"
+          :key="index"
+          :label="item.text"
+          :value="item.value"
+        />
+      </el-select>
     </div>
     <div class="filter-container">
       <el-button
@@ -11,19 +31,19 @@
         icon="el-icon-edit"
         @click="handleAdd"
       >新增</el-button>
-      <el-button
+      <!-- <el-button
         class="filter-item"
         style="margin-left: 10px;"
         type="primary"
         icon="el-icon-edit"
         @click="preEdit"
-      >修改</el-button>
-      <el-button
+      >修改</el-button>-->
+      <!-- <el-button
         class="filter-item"
         type="primary"
         icon="el-icon-download"
         @click="handleDownload"
-      >条件导出</el-button>
+      >条件导出</el-button>-->
       <!-- <toggle-table-column :column-list="columnList" :all-column-list="columnList" /> -->
     </div>
 
@@ -40,7 +60,7 @@
       <el-table-column type="selection" align="center" width="50" />
       <el-table-column label="操作" width="120">
         <template slot-scope="scope">
-          <el-dropdown>
+          <el-dropdown trigger="click">
             <el-button type="primary" size="small" icon="el-icon-s-tools">
               操作
               <i class="el-icon-arrow-down el-icon--right" />
@@ -52,9 +72,9 @@
               <span @click="editHandle(scope.row)">
                 <el-dropdown-item>修改</el-dropdown-item>
               </span>
-              <span @click="lock(scope.row.id)">
+              <!-- <span @click="lock(scope.row.id)">
                 <el-dropdown-item>锁定</el-dropdown-item>
-              </span>
+              </span>-->
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -148,6 +168,9 @@ export default {
     ...mapGetters([
       'session'
     ])
+  },
+  mounted() {
+    console.log(abp.session)
   },
   methods: {
     queryList() {

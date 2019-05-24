@@ -5,6 +5,7 @@ export default {
   components: { Pagination, ToggleTableColumn },
   data() {
     return {
+      auth: abp.auth,
       comm: comm,
       tableKey: 0,
       isShowLoading: true,

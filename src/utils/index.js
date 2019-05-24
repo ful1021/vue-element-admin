@@ -351,26 +351,56 @@ export function removeClass(ele, cls) {
   }
 }
 
-export function clonedeep(obj) {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj
+export function clonedeep(...args) {
+  let options
+  let name
+  let src
+  let srcType
+  let copy
+  let copyIsArray
+  let clone
+  let target = args[0] || {}
+  let i = 1
+  const length = args.length
+  let deep = false
+  if (typeof target === 'boolean') {
+    deep = target
+    target = args[i] || {}
+    i++
   }
-
-  if (obj instanceof Date) {
-    return new Date(obj.getTime())
+  if (typeof target !== 'object' && typeof target !== 'function') {
+    target = {}
   }
-
-  if (obj instanceof Array) {
-    return obj.reduce((arr, item, i) => {
-      arr[i] = clonedeep(item)
-      return arr
-    }, [])
+  if (i === length) {
+    target = this
+    i--
   }
-
-  if (obj instanceof Object) {
-    return Object.keys(obj).reduce((newObj, key) => {
-      newObj[key] = clonedeep(obj[key])
-      return newObj
-    }, {})
+  for (; i < length; i++) {
+    if ((options = args[i]) !== null) {
+      for (name in options) {
+        src = target[name]
+        copy = options[name]
+        if (target === copy) {
+          continue
+        }
+        srcType = Array.isArray(src) ? 'array' : typeof src
+        if (
+          deep &&
+          copy &&
+          ((copyIsArray = Array.isArray(copy)) || typeof copy === 'object')
+        ) {
+          if (copyIsArray) {
+            copyIsArray = false
+            clone = src && srcType === 'array' ? src : []
+          } else {
+            clone = src && srcType === 'object' ? src : {}
+          }
+          target[name] = clonedeep(deep, clone, copy)
+        } else if (copy !== undefined) {
+          target[name] = copy
+        }
+      }
+    }
   }
+  return target
 }
