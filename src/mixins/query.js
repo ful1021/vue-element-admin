@@ -1,8 +1,7 @@
 import Pagination from '@/components/Pagination'
-import ToggleTableColumn from '@/components/ToggleTableColumn'
 import comm from '@/mixins/comm'
 export default {
-  components: { Pagination, ToggleTableColumn },
+  components: { Pagination },
   data() {
     return {
       auth: abp.auth,
@@ -63,20 +62,19 @@ export default {
         callback(result)
       }
     },
+    pageChange(val) {
+      this.filters.skipCount = val.limit * (val.page - 1)
+    },
     // 数据列表全选事件
     handleSelectAll(selection) {
       this.selectRows = selection
     },
-    handleSelectRow(selection, row) {
-      this.selectRows = selection
-    },
 
     // 列表数据只能选择一个验证
-    selectOneValidate() {
+    selectOne() {
       if (this.selectRows.length !== 1) {
-        this.$message({
-          message: '请选择且只能选择一个需要操作的列表信息',
-          type: 'warning'
+        this.$message.warning({
+          message: '请选择且只能选择一个需要操作的列表信息'
         })
         return false
       }
@@ -85,9 +83,8 @@ export default {
     // 列表数据至少选择一个验证
     selectLeastOneValidate() {
       if (this.selectRows.length < 1) {
-        this.$message({
-          message: '至少选择一个需要操作的列表信息',
-          type: 'warning'
+        this.$message.warning({
+          message: '至少选择一个需要操作的列表信息'
         })
         return false
       }
@@ -95,33 +92,86 @@ export default {
     },
 
     // 编辑操作预处理
-    preEdit(getHandler) {
-      if (this.selectOneValidate()) {
-        this.handleEdit(getHandler)
+    preEdit() {
+      if (this.selectOne()) {
+        this.handleEdit(this.selectRows[0])
       }
     },
-    handleEdit(getHandler) {},
+    handleEdit(row) {},
 
-    // 重新验证当前选中的列表是否存在与当前的列表数据中
-    refreshSelectRows() {
-      if (this.selectRows.length === 0) {
+    /**
+     * 批量操作
+     * @param {Function} handerAction 单行操作的Promise
+     * @param {String} handlerName 操作的名称,可以不传默认为"操作"
+     * @param {Function} handerSuccessAction 批量操作成功后的回调函数,可以不传默认为"this.queryList"
+     * @param {handerRows} handerRows 批量操作的列表信息,可以不传,默认为"this.selectRows"当前选中列
+     **/
+    handlerBatch(handerAction, handlerName, handerSuccessAction, handerRows) {
+      if (typeof handerRows === 'undefined') {
+        handerRows = this.selectRows
+      }
+      if (!handerSuccessAction) {
+        handerSuccessAction = this.queryList
+      }
+      handlerName = handlerName || '操作'
+      if (!handerRows || handerRows.length === 0) {
+        this.$message.warning({
+          message: '请选择需要' + handlerName + '的列表信息'
+        })
         return
       }
-      this.$nextTick(() => {
-        const _selectRows = []
-        this.$refs.listTable.clearSelection()
-        this.tableData.forEach(item => {
-          const row = this.selectRows.find(rowItem => rowItem.id === item.id)
-          if (row) {
-            _selectRows.push(item)
-            this.$refs.listTable.toggleRowSelection(item, true)
-          }
-        })
-        this.selectRows = _selectRows
+      this.$confirm('确定要' + handlerName + '当前列表信息吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
-    },
-    pageChange(val) {
-      this.filters.skipCount = val.limit * (val.page - 1)
+        .then(() => {
+          Promise.all(
+            handerRows.map(function(item) {
+              return handerAction(item)
+                .then(result => {
+                  if (result && result.data) {
+                    return result.data
+                  } else if (result) {
+                    return result
+                  } else {
+                    return {
+                      success: true
+                    }
+                  }
+                })
+                .catch(error => {
+                  // 自己把异常吃掉,返回到数据提示
+                  return error.response.data
+                })
+            })
+          ).then(results => {
+            if (results && results.length) {
+              results.forEach((item, index) => {
+                if (item.success !== false) {
+                  this.$notify.success({
+                    title: '成功',
+                    message:
+                      (handerRows[index].name || '') + handlerName + '成功'
+                  })
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message:
+                      (handerRows[index].name || '') + item.error.message,
+                    duration: 0
+                  })
+                }
+              })
+            } else {
+              this.$message.success({
+                message: handlerName + '成功'
+              })
+            }
+            handerSuccessAction()
+          })
+        })
+        .catch(() => {})
     }
   }
 }
