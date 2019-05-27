@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs v-model="activeTab" type="card">
+    <el-tabs v-model="activeTab" type="border-card">
       <el-tab-pane label="基本信息" name="first">
         <el-form :ref="refFormName" :model="fromInput" label-width="80px">
           <el-form-item
@@ -54,19 +54,17 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="角色信息" name="second">
-        <div class="form-wrap-box">
-          <p>请勾选此用户所属角色：</p>
-          <el-checkbox-group v-model="fromInput.roleNames">
-            <el-checkbox
-              v-for="(item,index) in comm.roleList"
-              :key="index"
-              :label="item.normalizedName"
-            >{{ item.displayName }}</el-checkbox>
-          </el-checkbox-group>
-        </div>
+        <p>请勾选此用户所属角色：</p>
+        <el-checkbox-group v-model="fromInput.roleNames">
+          <el-checkbox
+            v-for="(item,index) in comm.roleList"
+            :key="index"
+            :label="item.normalizedName"
+          >{{ item.displayName }}</el-checkbox>
+        </el-checkbox-group>
       </el-tab-pane>
     </el-tabs>
-    <div style="text-align:center;">
+    <div class="foot">
       <el-button type="danger" @click="$emit('close')">取消</el-button>
       <el-button type="primary" @click="saveHandler">保存</el-button>
     </div>
@@ -136,3 +134,9 @@ export default {
 
 }
 </script>
+<style scoped>
+.foot {
+  text-align: center;
+  margin-top: 30px;
+}
+</style>
