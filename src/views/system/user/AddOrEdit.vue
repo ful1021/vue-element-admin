@@ -91,10 +91,7 @@ const defaultInput = {
 export default {
   mixins: [confirm],
   props: {
-    fromInput: {
-      type: Object,
-      default: () => defaultInput
-    }
+    fromInput: { type: Object, default: () => defaultInput }
   },
   data() {
     return {

@@ -22,7 +22,13 @@ export default {
       }, // 分页信息
       tableData: [], // 数据列表
       selectRows: [], // 用户选择的列表数据
-      queryListHandler: null
+      queryListHandler: null,
+
+      addOrEditDialog: {
+        title: '',
+        input: {},
+        isShow: false
+      }
     }
   },
   mounted() {
@@ -97,7 +103,15 @@ export default {
         this.handleEdit(this.selectRows[0])
       }
     },
-    handleEdit(row) {},
+    handleAdd() {
+      this.addOrEditDialog.title = '新增'
+      this.addOrEditDialog.isShow = true
+    },
+    handleEdit(row) {
+      this.addOrEditDialog.input = row
+      this.addOrEditDialog.title = '修改'
+      this.addOrEditDialog.isShow = true
+    },
 
     /**
      * 批量操作

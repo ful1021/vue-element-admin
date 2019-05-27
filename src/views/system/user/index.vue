@@ -72,9 +72,6 @@
               <span @click="handleEdit(scope.row)">
                 <el-dropdown-item>修改</el-dropdown-item>
               </span>
-              <!-- <span @click="lock(scope.row.id)">
-                <el-dropdown-item>锁定</el-dropdown-item>
-              </span>-->
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -121,9 +118,7 @@ import { app } from '@/api/api'
 import AddOrEdit from './AddOrEdit'
 
 export default {
-  components: {
-    AddOrEdit
-  },
+  components: { AddOrEdit },
   mixins: [query],
   data() {
     return {
@@ -158,12 +153,7 @@ export default {
           label: '创建时间',
           colName: 'creationTime'
         }
-      ],
-      addOrEditDialog: {
-        title: '',
-        input: {},
-        isShow: false
-      }
+      ]
     }
   },
   mounted() {
@@ -173,18 +163,7 @@ export default {
     queryList() {
       this.getList(app.user.getAll)
     },
-    handleAdd() {
-      this.addOrEditDialog.title = '新增'
-      this.addOrEditDialog.isShow = true
-    },
-    handleEdit(row) {
-      this.addOrEditDialog.input = row
-      this.addOrEditDialog.title = '修改'
-      this.addOrEditDialog.isShow = true
-    },
-    lock(userId) {
 
-    },
     handleDownload() {
 
     },

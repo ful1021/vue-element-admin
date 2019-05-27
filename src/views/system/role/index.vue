@@ -3,25 +3,10 @@
     <div class="filter-container">
       <el-input
         v-model="filters.keyword"
-        placeholder="用户名、姓名、邮箱"
+        placeholder="名称、描述"
         style="width: 300px;"
         class="filter-item"
       />
-
-      <el-select
-        v-model="filters.isActive"
-        placeholder="是否激活"
-        clearable
-        style="width: 150px"
-        class="filter-item"
-      >
-        <el-option
-          v-for="(item,index) in comm.boolList"
-          :key="index"
-          :label="item.text"
-          :value="item.value"
-        />
-      </el-select>
     </div>
     <div class="filter-container">
       <el-button
@@ -61,11 +46,6 @@
       </el-table-column>
       <el-table-column header-align="center" align="center" label="名称" prop="name" />
       <el-table-column header-align="center" align="center" label="描述" prop="description" />
-      <el-table-column header-align="center" align="center" label="创建时间" prop="creationTime">
-        <template slot-scope="scope">
-          <span>{{ new Date(scope.row.creationTime) | formatTime('{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
     </el-table>
 
     <pagination
@@ -98,25 +78,12 @@ export default {
   mixins: [query],
   data() {
     return {
-      addOrEditDialog: {
-        title: '',
-        input: {},
-        isShow: false
-      }
+
     }
   },
   methods: {
     queryList() {
       this.getList(app.role.getAll)
-    },
-    handleAdd() {
-      this.addOrEditDialog.title = '新增'
-      this.addOrEditDialog.isShow = true
-    },
-    handleEdit(row) {
-      this.addOrEditDialog.input = row
-      this.addOrEditDialog.title = '修改'
-      this.addOrEditDialog.isShow = true
     }
   }
 }
