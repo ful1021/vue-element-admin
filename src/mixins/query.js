@@ -27,7 +27,8 @@ export default {
       addOrEditDialog: {
         title: '',
         input: {},
-        isShow: false
+        isShow: false,
+        isAdd: true
       }
     }
   },
@@ -106,11 +107,13 @@ export default {
     handleAdd() {
       this.addOrEditDialog.title = '新增'
       this.addOrEditDialog.isShow = true
+      this.addOrEditDialog.isAdd = true
     },
     handleEdit(row) {
       this.addOrEditDialog.input = row
       this.addOrEditDialog.title = '修改'
       this.addOrEditDialog.isShow = true
+      this.addOrEditDialog.isAdd = false
     },
 
     /**

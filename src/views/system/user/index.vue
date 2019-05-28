@@ -105,6 +105,7 @@
     <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
       <add-or-edit
         :from-input="addOrEditDialog.input"
+        :is-add="addOrEditDialog.isAdd"
         @queryList="queryList"
         @close="addOrEditDialog.isShow=false"
       />
@@ -126,7 +127,7 @@ export default {
         pageSizes: [1, 2, 10, 25, 50, 100, 500]
       },
       filters: {
-        maxResultCount: 1
+        maxResultCount: 2
       },
       columnList: [
         {
@@ -148,10 +149,6 @@ export default {
         {
           label: '最后登录时间',
           colName: 'lastLoginTime'
-        },
-        {
-          label: '创建时间',
-          colName: 'creationTime'
         }
       ]
     }

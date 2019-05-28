@@ -31,12 +31,12 @@
           >
             <el-input v-model="fromInput.emailAddress" />
           </el-form-item>
-          <div v-if="fromInput.id==0">
+          <div v-if="isAdd">
             <el-form-item
               prop="password"
               label="密码"
               auto-complete="off"
-              :rules="[{ required: true, message: '请输入密码', trigger: 'blur' },{ min: 6, message: '大于或等于6位', trigger: 'change' }]"
+              :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]"
             >
               <el-input v-model="fromInput.password" type="password" />
             </el-form-item>
@@ -73,8 +73,7 @@
 
 <script>
 import { app } from '@/api/api'
-import confirm from '@/mixins/confirm'
-import comm from '@/mixins/comm'
+import action from '@/mixins/action'
 const defaultInput = {
   id: 0,
   userName: '',
@@ -87,13 +86,12 @@ const defaultInput = {
   password: ''
 }
 export default {
-  mixins: [confirm],
+  mixins: [action],
   props: {
     fromInput: { type: Object, default: () => defaultInput }
   },
   data() {
     return {
-      comm,
       activeTab: 'first',
       refFormName: 'dataForm'
     }

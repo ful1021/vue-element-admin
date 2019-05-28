@@ -68,8 +68,7 @@
 
 <script>
 import { app } from '@/api/api'
-import confirm from '@/mixins/confirm'
-import comm from '@/mixins/comm'
+import action from '@/mixins/action'
 const defaultInput = {
   id: 0,
   name: '',
@@ -78,16 +77,12 @@ const defaultInput = {
   permissions: []
 }
 export default {
-  mixins: [confirm],
+  mixins: [action],
   props: {
-    fromInput: {
-      type: Object,
-      default: () => defaultInput
-    }
+    fromInput: { type: Object, default: () => defaultInput }
   },
   data() {
     return {
-      comm,
       activeTab: 'first',
       refFormName: 'dataForm',
 

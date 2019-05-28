@@ -433,6 +433,18 @@ const app = {
           ajaxParams
         )
       )
+    },
+    switchToLinkedAccount(input, ajaxParams) {
+      return request(
+        clonedeep(
+          {
+            url: '/api/services/app/Account/SwitchToLinkedAccount',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
     }
   }
 }
