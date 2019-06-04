@@ -119,21 +119,6 @@ abp.auth.allPermissions = abp.auth.allPermissions || {}
 
 abp.auth.grantedPermissions = abp.auth.grantedPermissions || {}
 
-// Deprecated. Use abp.auth.isGranted instead.
-abp.auth.hasPermission = function(permissionName) {
-  return abp.auth.isGranted.apply(this, arguments)
-}
-
-// Deprecated. Use abp.auth.isAnyGranted instead.
-abp.auth.hasAnyOfPermissions = function() {
-  return abp.auth.isAnyGranted.apply(this, arguments)
-}
-
-// Deprecated. Use abp.auth.areAllGranted instead.
-abp.auth.hasAllOfPermissions = function() {
-  return abp.auth.areAllGranted.apply(this, arguments)
-}
-
 abp.auth.isGranted = function(permissionName) {
   return (
     abp.auth.allPermissions[permissionName] !== undefined &&

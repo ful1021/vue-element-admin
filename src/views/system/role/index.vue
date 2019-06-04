@@ -10,6 +10,7 @@
     </div>
     <div class="filter-container">
       <el-button
+        v-has:Create
         class="filter-item"
         style="margin-left: 10px;"
         type="primary"
@@ -44,7 +45,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column header-align="center" align="center" label="名称" prop="name" />
+      <el-table-column header-align="center" align="center" label="名称" prop="displayName" />
       <el-table-column header-align="center" align="center" label="描述" prop="description" />
     </el-table>
 
@@ -56,13 +57,16 @@
       @pagination="pageChange"
     />
 
-    <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
-      <add-or-edit
-        :from-input="addOrEditDialog.input"
-        @queryList="queryList"
-        @close="addOrEditDialog.isShow=false"
-      />
-    </el-dialog>
+    <div v-if="addOrEditDialog.isShow">
+      <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
+        <add-or-edit
+          :edit-input="addOrEditDialog.input"
+          :is-add="addOrEditDialog.isAdd"
+          @queryList="queryList"
+          @close="addOrEditDialog.isShow=false"
+        />
+      </el-dialog>
+    </div>
   </div>
 </template>
 

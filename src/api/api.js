@@ -187,18 +187,6 @@ const app = {
     }
   },
   role: {
-    create(input, ajaxParams) {
-      return request(
-        clonedeep(
-          {
-            url: '/api/services/app/Role/Create',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
     getRoles(input, ajaxParams) {
       return request(
         clonedeep(
@@ -210,18 +198,6 @@ const app = {
               ]) +
               '',
             method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    update(input, ajaxParams) {
-      return request(
-        clonedeep(
-          {
-            url: '/api/services/app/Role/Update',
-            method: 'PUT',
-            data: JSON.stringify(input)
           },
           ajaxParams
         )
@@ -266,6 +242,18 @@ const app = {
         )
       )
     },
+    createOrUpdateRole(input, ajaxParams) {
+      return request(
+        clonedeep(
+          {
+            url: '/api/services/app/Role/CreateOrUpdateRole',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
     get(input, ajaxParams) {
       return request(
         clonedeep(
@@ -293,6 +281,30 @@ const app = {
               ]) +
               '',
             method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    create(input, ajaxParams) {
+      return request(
+        clonedeep(
+          {
+            url: '/api/services/app/Role/Create',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(input, ajaxParams) {
+      return request(
+        clonedeep(
+          {
+            url: '/api/services/app/Role/Update',
+            method: 'PUT',
+            data: JSON.stringify(input)
           },
           ajaxParams
         )

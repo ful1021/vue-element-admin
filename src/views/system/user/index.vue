@@ -25,6 +25,7 @@
     </div>
     <div class="filter-container">
       <el-button
+        v-has:Create
         class="filter-item"
         style="margin-left: 10px;"
         type="primary"
@@ -32,6 +33,7 @@
         @click="handleAdd"
       >新增</el-button>
       <!-- <el-button
+        v-has:Edit
         class="filter-item"
         style="margin-left: 10px;"
         type="primary"
@@ -69,7 +71,7 @@
               <span v-show="session.userId!=scope.row.id" @click="impersonate(scope.row.id)">
                 <el-dropdown-item>使用这个用户登录</el-dropdown-item>
               </span>
-              <span @click="handleEdit(scope.row)">
+              <span v-has:Edit @click="handleEdit(scope.row)">
                 <el-dropdown-item>修改</el-dropdown-item>
               </span>
             </el-dropdown-menu>

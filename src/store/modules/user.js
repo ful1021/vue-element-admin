@@ -63,8 +63,9 @@ const actions = {
         getInfo(state.token)
       ])
         .then(values => {
-          window.abp = clonedeep(true, abp, values[0])
+          const config = values[0]
           const data = values[1]
+          window.abp = clonedeep(true, abp, config)
           // const { data } = response
 
           if (!data) {
@@ -83,7 +84,7 @@ const actions = {
           commit('SET_AVATAR', avatar)
           commit('SET_INTRODUCTION', introduction)
 
-          resolve(clonedeep(true, data, window.abp.nav))
+          resolve(clonedeep(true, data, config.nav, config.auth))
         })
         .catch(error => {
           reject(error)
