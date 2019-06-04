@@ -5,7 +5,7 @@
       :model="loginForm"
       :rules="loginRules"
       class="login-form"
-      auto-complete="on"
+      autocomplete="on"
       label-position="left"
     >
       <div class="title-container">
@@ -23,7 +23,7 @@
           name="username"
           type="text"
           tabindex="1"
-          auto-complete="on"
+          autocomplete="on"
         />
       </el-form-item>
 
@@ -40,7 +40,7 @@
             placeholder="Password"
             name="password"
             tabindex="2"
-            auto-complete="on"
+            autocomplete="on"
             @keyup.native="checkCapslock"
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
