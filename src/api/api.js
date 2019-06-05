@@ -18,37 +18,58 @@ const app = {
         )
       )
     },
-    getExternalAuthenticationProviders(ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/TokenAuth/GetExternalAuthenticationProviders',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    externalAuthenticate(model, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/TokenAuth/ExternalAuthenticate',
-            method: 'POST',
-            data: JSON.stringify(model)
-          },
-          ajaxParams
-        )
-      )
-    },
     logOut(ajaxParams) {
       return request(
         extend(
           true,
           {
             url: '/api/TokenAuth/LogOut',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    impersonatedAuthenticate(impersonationToken, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url:
+              '/api/TokenAuth/ImpersonatedAuthenticate' +
+              abp.utils.buildQueryString([
+                { name: 'impersonationToken', value: impersonationToken }
+              ]) +
+              '',
+            method: 'POST'
+          },
+          ajaxParams
+        )
+      )
+    },
+    linkedAccountAuthenticate(switchAccountToken, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url:
+              '/api/TokenAuth/LinkedAccountAuthenticate' +
+              abp.utils.buildQueryString([
+                { name: 'switchAccountToken', value: switchAccountToken }
+              ]) +
+              '',
+            method: 'POST'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getExternalAuthenticationProviders(ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/TokenAuth/GetExternalAuthenticationProviders',
             method: 'GET'
           },
           ajaxParams

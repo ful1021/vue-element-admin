@@ -80,7 +80,8 @@
         </template>
       </el-table-column>
       <el-table-column header-align="center" align="center" label="用户名" prop="userName" />
-
+      <el-table-column header-align="center" align="center" label="姓名" prop="name" />
+      <!-- <el-table-column header-align="center" align="center" label="角色" prop="roleNames" /> -->
       <el-table-column
         v-for="(item,index) in columnList"
         :key="index"
@@ -89,6 +90,11 @@
         :label="item.label"
       >
         <template slot-scope="scope">{{ scope.row[item.colName] }}</template>
+      </el-table-column>
+      <el-table-column header-align="center" align="center" label="最后登录时间">
+        <template slot-scope="scope">
+          <span>{{ scope.row.lastLoginTime | dateFormat('yyyy-MM-dd hh:mm') }}</span>
+        </template>
       </el-table-column>
       <el-table-column header-align="center" align="center" label="创建时间" prop="creationTime">
         <template slot-scope="scope">
@@ -107,7 +113,7 @@
 
     <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
       <add-or-edit
-        :from-input="addOrEditDialog.input"
+        :edit-input="addOrEditDialog.input"
         :is-add="addOrEditDialog.isAdd"
         @queryList="queryList"
         @close="addOrEditDialog.isShow=false"
@@ -126,21 +132,7 @@ export default {
   mixins: [query],
   data() {
     return {
-      pageConfig: {
-        pageSizes: [1, 2, 10, 25, 50, 100, 500]
-      },
-      filters: {
-        maxResultCount: 2
-      },
       columnList: [
-        {
-          label: '姓名',
-          colName: 'name'
-        },
-        {
-          label: '角色',
-          colName: 'roleNames'
-        },
         {
           label: '手机号',
           colName: 'phoneNumber'
@@ -148,16 +140,9 @@ export default {
         {
           label: '邮箱',
           colName: 'emailAddress'
-        },
-        {
-          label: '最后登录时间',
-          colName: 'lastLoginTime'
         }
       ]
     }
-  },
-  mounted() {
-
   },
   methods: {
     queryList() {
@@ -169,18 +154,8 @@ export default {
     },
 
     async impersonate(userId) {
-      const input = {
-        userId: userId,
-        tenantId: this.session.tenantId
-      }
-      const result = await app.account.impersonate(input)
-
-      let targetUrl = this.comm.rootUrl + '#?impersonationToken=' + result.impersonationToken
-      if (input.tenantId) {
-        targetUrl = targetUrl + '&tenantId=' + input.tenantId
-      }
-      console.log(targetUrl)
-      // location.href = targetUrl
+      await this.$store.dispatch('user/impersonate', userId)
+      this.$router.push({ path: '/' })
     }
   }
 }

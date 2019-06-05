@@ -88,18 +88,27 @@ const defaultInput = {
 export default {
   mixins: [action],
   props: {
-    fromInput: { type: Object, default: () => defaultInput }
+    editInput: { type: Object, default: () => defaultInput }
   },
   data() {
     return {
+      fromInput: {},
       activeTab: 'first',
       refFormName: 'dataForm'
     }
   },
   mounted() {
-    this.comm.initRoles()
+    if (this.isAdd) {
+      this.fromInput = Object.assign({}, defaultInput)
+    } else {
+      this.fromInput = this.editInput
+    }
+    this.init()
   },
   methods: {
+    init() {
+      this.comm.initRoles()
+    },
     saveHandler() {
       let msg = '确定要新增？'
       if (this.fromInput.id > 0) {
@@ -127,9 +136,7 @@ export default {
         callback()
       }
     }
-
   }
-
 }
 </script>
 <style scoped>

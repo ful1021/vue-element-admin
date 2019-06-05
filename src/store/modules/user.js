@@ -14,10 +14,14 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  isImpersonatedLogin: false
 }
 
 const mutations = {
+  SET_IsImpersonatedLogin: (state, isImpersonatedLogin) => {
+    state.isImpersonatedLogin = isImpersonatedLogin
+  },
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -34,6 +38,11 @@ const mutations = {
     state.roles = roles
   }
 }
+function setBearerToken(commit, response) {
+  const token = 'Bearer ' + response.accessToken
+  commit('SET_TOKEN', token)
+  setToken(token)
+}
 
 const actions = {
   // user login
@@ -42,11 +51,45 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ userNameOrEmailAddress: username.trim(), password: password })
         .then(response => {
-          // const { data } = response
-          const token = 'Bearer ' + response.accessToken
+          setBearerToken(commit, response)
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
 
-          commit('SET_TOKEN', token)
-          setToken(token)
+  impersonate({ commit, dispatch }, userId) {
+    return new Promise(async(resolve, reject) => {
+      const input = {
+        userId: userId,
+        tenantId: abp.session.tenantId
+      }
+      const impersonateResult = await app.account.impersonate(input)
+      await dispatch('logout')
+      app.tokenAuth
+        .impersonatedAuthenticate(impersonateResult.impersonationToken)
+        .then(response => {
+          setBearerToken(commit, response)
+          commit('SET_IsImpersonatedLogin', true)
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+
+  backToImpersonator({ commit, dispatch }) {
+    return new Promise(async(resolve, reject) => {
+      const impersonateResult = await app.account.backToImpersonator()
+      await dispatch('logout')
+      app.tokenAuth
+        .impersonatedAuthenticate(impersonateResult.impersonationToken)
+        .then(response => {
+          setBearerToken(commit, response)
+          commit('SET_IsImpersonatedLogin', false)
           resolve()
         })
         .catch(error => {

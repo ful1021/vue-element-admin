@@ -16,8 +16,12 @@ export default {
   roleList: [],
   // 初始化角色
   async initRoles(paramData) {
-    const param = paramData || {}
-    const result = await app.user.getRoles(param)
+    // const param = paramData || {}
+    // const result = await app.user.getRoles(param)
+    const result = await app.role.getAll({
+      skipCount: 0,
+      maxResultCount: 100
+    })
     this.roleList = result.items
   },
 
