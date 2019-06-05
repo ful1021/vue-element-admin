@@ -351,7 +351,7 @@ export function removeClass(ele, cls) {
   }
 }
 
-export function clonedeep(...args) {
+export function extend(...args) {
   let options
   let name
   let src
@@ -395,7 +395,7 @@ export function clonedeep(...args) {
           } else {
             clone = src && srcType === 'object' ? src : {}
           }
-          target[name] = clonedeep(deep, clone, copy)
+          target[name] = extend(deep, clone, copy)
         } else if (copy !== undefined) {
           target[name] = copy
         }

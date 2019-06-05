@@ -22,6 +22,7 @@
           :value="item.value"
         />
       </el-select>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="queryList">搜索</el-button>
     </div>
     <div class="filter-container">
       <el-button
@@ -91,7 +92,7 @@
       </el-table-column>
       <el-table-column header-align="center" align="center" label="创建时间" prop="creationTime">
         <template slot-scope="scope">
-          <span>{{ new Date(scope.row.creationTime) | formatTime('{y}-{m}-{d}') }}</span>
+          <span>{{ scope.row.creationTime | dateFormat('yyyy-MM-dd hh:mm') }}</span>
         </template>
       </el-table-column>
     </el-table>

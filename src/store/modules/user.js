@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import abp from '@/utils/abp'
-import { clonedeep } from '@/utils'
+import { extend } from '@/utils'
 import { app } from '@/api/api'
 const login = app.tokenAuth.authenticate
 const getInfo = app.session.getCurrentLoginInformations
@@ -65,7 +65,7 @@ const actions = {
         .then(values => {
           const config = values[0]
           const data = values[1]
-          window.abp = clonedeep(true, abp, config)
+          window.abp = extend(true, abp, config)
           // const { data } = response
 
           if (!data) {
@@ -84,7 +84,7 @@ const actions = {
           commit('SET_AVATAR', avatar)
           commit('SET_INTRODUCTION', introduction)
 
-          resolve(clonedeep(true, data, config.nav, config.auth))
+          resolve(extend(true, data, config.nav, config.auth))
         })
         .catch(error => {
           reject(error)

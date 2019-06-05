@@ -7,6 +7,7 @@
         style="width: 300px;"
         class="filter-item"
       />
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="queryList">搜索</el-button>
     </div>
     <div class="filter-container">
       <el-button
@@ -45,8 +46,23 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column header-align="center" align="center" label="名称" prop="displayName" />
+      <el-table-column header-align="center" align="center" label="名称" prop="displayName">
+        <template slot-scope="scope">
+          <span>{{ scope.row.displayName }}</span>
+          <span v-if="scope.row.isStatic">
+            <el-tag effect="dark">系统</el-tag>
+          </span>
+          <span v-if="scope.row.isDefault">
+            <el-tag effect="dark" type="info">默认</el-tag>
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column header-align="center" align="center" label="描述" prop="description" />
+      <el-table-column header-align="center" align="center" label="创建时间" prop="creationTime">
+        <template slot-scope="scope">
+          <span>{{ scope.row.creationTime | dateFormat('yyyy-MM-dd hh:mm') }}</span>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination

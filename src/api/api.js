@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 import abp from '@/utils/abp'
-// const clonedeep = require('lodash.clonedeep')
-import { clonedeep } from '@/utils'
+import { extend } from '@/utils'
 
 // module 'app'
 const app = {
   tokenAuth: {
     authenticate(model, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/TokenAuth/Authenticate',
             method: 'POST',
@@ -20,7 +20,8 @@ const app = {
     },
     getExternalAuthenticationProviders(ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/TokenAuth/GetExternalAuthenticationProviders',
             method: 'GET'
@@ -31,7 +32,8 @@ const app = {
     },
     externalAuthenticate(model, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/TokenAuth/ExternalAuthenticate',
             method: 'POST',
@@ -43,7 +45,8 @@ const app = {
     },
     logOut(ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/TokenAuth/LogOut',
             method: 'GET'
@@ -56,7 +59,8 @@ const app = {
   user: {
     create(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/User/Create',
             method: 'POST',
@@ -68,7 +72,8 @@ const app = {
     },
     update(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/User/Update',
             method: 'PUT',
@@ -80,7 +85,8 @@ const app = {
     },
     delete(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/User/Delete' +
@@ -94,7 +100,8 @@ const app = {
     },
     getRoles(ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/User/GetRoles',
             method: 'GET'
@@ -105,7 +112,8 @@ const app = {
     },
     changeLanguage(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/User/ChangeLanguage',
             method: 'POST',
@@ -117,7 +125,8 @@ const app = {
     },
     changePassword(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/User/ChangePassword',
             method: 'POST',
@@ -129,7 +138,8 @@ const app = {
     },
     resetPassword(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/User/ResetPassword',
             method: 'POST',
@@ -141,7 +151,8 @@ const app = {
     },
     get(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/User/Get' +
@@ -155,7 +166,8 @@ const app = {
     },
     getAll(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/User/GetAll' +
@@ -176,7 +188,8 @@ const app = {
   session: {
     getCurrentLoginInformations(ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Session/GetCurrentLoginInformations',
             method: 'GET'
@@ -189,7 +202,8 @@ const app = {
   role: {
     getRoles(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Role/GetRolesAsync' +
@@ -205,7 +219,8 @@ const app = {
     },
     delete(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Role/Delete' +
@@ -219,7 +234,8 @@ const app = {
     },
     getAllPermissions(ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Role/GetAllPermissions',
             method: 'GET'
@@ -230,7 +246,8 @@ const app = {
     },
     getRoleForEdit(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Role/GetRoleForEdit' +
@@ -244,7 +261,8 @@ const app = {
     },
     createOrUpdateRole(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Role/CreateOrUpdateRole',
             method: 'POST',
@@ -256,7 +274,8 @@ const app = {
     },
     get(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Role/Get' +
@@ -270,7 +289,8 @@ const app = {
     },
     getAll(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Role/GetAll' +
@@ -286,9 +306,29 @@ const app = {
         )
       )
     },
+    getAllList(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url:
+              '/api/services/app/Role/GetAllList' +
+              abp.utils.buildQueryString([
+                { name: 'keyword', value: input.keyword },
+                { name: 'skipCount', value: input.skipCount },
+                { name: 'maxResultCount', value: input.maxResultCount }
+              ]) +
+              '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
     create(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Role/Create',
             method: 'POST',
@@ -300,7 +340,8 @@ const app = {
     },
     update(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Role/Update',
             method: 'PUT',
@@ -314,7 +355,8 @@ const app = {
   tenant: {
     create(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Tenant/Create',
             method: 'POST',
@@ -326,7 +368,8 @@ const app = {
     },
     delete(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Tenant/Delete' +
@@ -340,7 +383,8 @@ const app = {
     },
     get(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Tenant/Get' +
@@ -354,7 +398,8 @@ const app = {
     },
     getAll(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url:
               '/api/services/app/Tenant/GetAll' +
@@ -373,7 +418,8 @@ const app = {
     },
     update(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Tenant/Update',
             method: 'PUT',
@@ -387,7 +433,8 @@ const app = {
   configuration: {
     changeUiTheme(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Configuration/ChangeUiTheme',
             method: 'POST',
@@ -401,7 +448,8 @@ const app = {
   account: {
     isTenantAvailable(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Account/IsTenantAvailable',
             method: 'POST',
@@ -413,7 +461,8 @@ const app = {
     },
     register(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Account/Register',
             method: 'POST',
@@ -425,7 +474,8 @@ const app = {
     },
     impersonate(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Account/Impersonate',
             method: 'POST',
@@ -437,7 +487,8 @@ const app = {
     },
     backToImpersonator(ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Account/BackToImpersonator',
             method: 'POST'
@@ -448,7 +499,8 @@ const app = {
     },
     switchToLinkedAccount(input, ajaxParams) {
       return request(
-        clonedeep(
+        extend(
+          true,
           {
             url: '/api/services/app/Account/SwitchToLinkedAccount',
             method: 'POST',
