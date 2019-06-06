@@ -404,3 +404,24 @@ export function extend(...args) {
   }
   return target
 }
+
+export function reloadPage() {
+  location.href = location.origin
+}
+
+export function openPage(path) {
+  window.open(`${window.location.href.split('#')[0]}#${path}`)
+}
+
+// 使用隐藏 iframe 打开一个页面，一般用于下载文件 导出EXcel等
+export function downloadFileIframe(src) {
+  // window.open(site.Config.webapiDomain + src);
+  let downloadIframe = document.createElement('iframe')
+  downloadIframe.src = location.origin + src
+  downloadIframe.style.cssText = 'width:0px;height:0px;display:none;'
+  document.body.appendChild(downloadIframe)
+  downloadIframe.onload = function() {
+    document.body.removeChild(downloadIframe)
+    downloadIframe = null
+  }
+}

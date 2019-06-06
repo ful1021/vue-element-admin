@@ -70,9 +70,13 @@ export default {
     SizeSelect,
     Search
   },
+  data() {
+    return {
+      isImpersonatedLogin: abp.session.impersonatorUserId > 0
+    }
+  },
   computed: {
     ...mapGetters([
-      'isImpersonatedLogin',
       'sidebar',
       'avatar',
       'device'
@@ -84,7 +88,6 @@ export default {
     },
     async backToImpersonator() {
       await this.$store.dispatch('user/backToImpersonator')
-      this.$router.push({ path: '/' })
     },
     async logout() {
       await this.$store.dispatch('user/logout')

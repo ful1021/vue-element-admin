@@ -33,6 +33,13 @@
         icon="el-icon-edit"
         @click="handleAdd"
       >新增</el-button>
+      <el-button
+        v-has:Unlock
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="primary"
+        @click="handleUnlock"
+      >解锁</el-button>
       <!-- <el-button
         v-has:Edit
         class="filter-item"
@@ -69,11 +76,18 @@
               <i class="el-icon-arrow-down el-icon--right" />
             </el-button>
             <el-dropdown-menu slot="dropdown" style="width:150px">
-              <span v-show="session.userId!=scope.row.id" @click="impersonate(scope.row.id)">
-                <el-dropdown-item>使用这个用户登录</el-dropdown-item>
+              <span
+                v-show="session.userId!=scope.row.id"
+                v-has:Impersonate
+                @click="impersonate(scope.row.id)"
+              >
+                <el-dropdown-item>模拟用户登录</el-dropdown-item>
               </span>
               <span v-has:Edit @click="handleEdit(scope.row)">
                 <el-dropdown-item>修改</el-dropdown-item>
+              </span>
+              <span v-has:ResetPassword @click="handleEdit(scope.row)">
+                <el-dropdown-item>重置密码</el-dropdown-item>
               </span>
             </el-dropdown-menu>
           </el-dropdown>
@@ -155,7 +169,12 @@ export default {
 
     async impersonate(userId) {
       await this.$store.dispatch('user/impersonate', userId)
-      this.$router.push({ path: '/' })
+    },
+
+    handleUnlock() {
+      if (this.selectLeastOne()) {
+        this.handlerBatch(app.user.unlockUser, '解锁', this.selectRows.map(a => { return { id: a.id } }))
+      }
     }
   }
 }

@@ -88,7 +88,7 @@ export default {
       return true
     },
     // 列表数据至少选择一个验证
-    selectLeastOneValidate() {
+    selectLeastOne() {
       if (this.selectRows.length < 1) {
         this.$message.warning({
           message: '至少选择一个需要操作的列表信息'
@@ -120,10 +120,10 @@ export default {
      * 批量操作
      * @param {Function} handerAction 单行操作的Promise
      * @param {String} handlerName 操作的名称,可以不传默认为"操作"
-     * @param {Function} handerSuccessAction 批量操作成功后的回调函数,可以不传默认为"this.queryList"
      * @param {handerRows} handerRows 批量操作的列表信息,可以不传,默认为"this.selectRows"当前选中列
+     * @param {Function} handerSuccessAction 批量操作成功后的回调函数,可以不传默认为"this.queryList"
      **/
-    handlerBatch(handerAction, handlerName, handerSuccessAction, handerRows) {
+    handlerBatch(handerAction, handlerName, handerRows, handerSuccessAction) {
       if (typeof handerRows === 'undefined') {
         handerRows = this.selectRows
       }

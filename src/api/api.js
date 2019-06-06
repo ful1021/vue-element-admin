@@ -119,6 +119,19 @@ const app = {
         )
       )
     },
+    unlockUser(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/User/UnlockUser',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
     getRoles(ajaxParams) {
       return request(
         extend(

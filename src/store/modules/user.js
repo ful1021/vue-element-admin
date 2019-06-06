@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import abp from '@/utils/abp'
-import { extend } from '@/utils'
+import { extend, reloadPage } from '@/utils'
 import { app } from '@/api/api'
 const login = app.tokenAuth.authenticate
 const getInfo = app.session.getCurrentLoginInformations
@@ -14,14 +14,10 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: [],
-  isImpersonatedLogin: false
+  roles: []
 }
 
 const mutations = {
-  SET_IsImpersonatedLogin: (state, isImpersonatedLogin) => {
-    state.isImpersonatedLogin = isImpersonatedLogin
-  },
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -52,6 +48,7 @@ const actions = {
       login({ userNameOrEmailAddress: username.trim(), password: password })
         .then(response => {
           setBearerToken(commit, response)
+          reloadPage()
           resolve()
         })
         .catch(error => {
@@ -72,7 +69,7 @@ const actions = {
         .impersonatedAuthenticate(impersonateResult.impersonationToken)
         .then(response => {
           setBearerToken(commit, response)
-          commit('SET_IsImpersonatedLogin', true)
+          reloadPage()
           resolve()
         })
         .catch(error => {
@@ -89,7 +86,7 @@ const actions = {
         .impersonatedAuthenticate(impersonateResult.impersonationToken)
         .then(response => {
           setBearerToken(commit, response)
-          commit('SET_IsImpersonatedLogin', false)
+          location.href = location.origin
           resolve()
         })
         .catch(error => {
