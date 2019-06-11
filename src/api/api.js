@@ -464,6 +464,25 @@ const app = {
       )
     }
   },
+  enums: {
+    batchGetEnumList(regKeys, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url:
+              '/api/services/app/Enums/BatchGetEnumList' +
+              abp.utils.buildQueryString([
+                { name: 'regKeys', value: regKeys }
+              ]) +
+              '',
+            method: 'POST'
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
   configuration: {
     changeUiTheme(input, ajaxParams) {
       return request(

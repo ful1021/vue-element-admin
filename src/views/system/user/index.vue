@@ -48,12 +48,12 @@
         icon="el-icon-edit"
         @click="preEdit"
       >修改</el-button>-->
-      <!-- <el-button
+      <el-button
         class="filter-item"
         type="primary"
         icon="el-icon-download"
         @click="handleDownload"
-      >条件导出</el-button>-->
+      >条件导出</el-button>
       <!-- <toggle-table-column :column-list="columnList" :all-column-list="columnList" /> -->
     </div>
 

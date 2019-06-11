@@ -48,7 +48,6 @@ const actions = {
       login({ userNameOrEmailAddress: username.trim(), password: password })
         .then(response => {
           setBearerToken(commit, response)
-          reloadPage()
           resolve()
         })
         .catch(error => {
@@ -86,7 +85,7 @@ const actions = {
         .impersonatedAuthenticate(impersonateResult.impersonationToken)
         .then(response => {
           setBearerToken(commit, response)
-          location.href = location.origin
+          reloadPage()
           resolve()
         })
         .catch(error => {

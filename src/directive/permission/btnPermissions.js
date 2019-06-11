@@ -6,7 +6,9 @@ Vue.directive('has', {
     const route = vnode.context.$route
     let permissionValue = binding.arg || binding.value
     if (permissionValue) {
-      permissionValue = route.name + '.' + permissionValue
+      if (permissionValue.indexOf('.') < 0) {
+        permissionValue = route.name + '.' + permissionValue
+      }
     }
     // console.log(permissionValue)
     // const btnPermissionsArr = route.meta.btnPermissions

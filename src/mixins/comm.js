@@ -26,13 +26,12 @@ export default {
   },
 
   // 批量获取枚举下拉数据
-  initEnum(name) {
-    app.enums.batchGetEnumList(name).then(result => {
-      for (const k in result) {
-        const key = k + 'List'
-        this[key] = result[k]
-      }
-    })
+  async initEnum(name) {
+    const result = await app.enums.batchGetEnumList(name)
+    for (const k in result) {
+      const key = k + 'List'
+      this[key] = result[k]
+    }
   },
 
   rootUrl: window.location.href.split('#')[0],
