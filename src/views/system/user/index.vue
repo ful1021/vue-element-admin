@@ -86,7 +86,7 @@
               <span v-has:Edit @click="handleEdit(scope.row)">
                 <el-dropdown-item>修改</el-dropdown-item>
               </span>
-              <span v-has:ResetPassword @click="handleEdit(scope.row)">
+              <span v-has:ResetPassword @click="handleResetPwd(scope.row)">
                 <el-dropdown-item>重置密码</el-dropdown-item>
               </span>
             </el-dropdown-menu>
@@ -134,6 +134,7 @@
         <add-or-edit
           :edit-input="addOrEditDialog.input"
           :is-add="addOrEditDialog.isAdd"
+          :is-reset-password="addOrEditDialog.isResetPassword"
           @queryList="queryList"
           @close="addOrEditDialog.isShow=false"
         />
@@ -172,7 +173,10 @@ export default {
     handleDownload() {
 
     },
-
+    handleResetPwd(row) {
+      this.handleEdit(row)
+      this.addOrEditDialog.isResetPassword = true
+    },
     async impersonate(userId) {
       await this.$store.dispatch('user/impersonate', userId)
     },

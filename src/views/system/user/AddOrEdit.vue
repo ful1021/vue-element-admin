@@ -2,36 +2,47 @@
   <div>
     <el-tabs v-model="activeTab" type="border-card">
       <el-tab-pane label="基本信息" name="first">
-        <el-form :ref="refFormName" :model="fromInput" label-width="80px">
-          <el-form-item
-            prop="userName"
-            label="用户名"
-            :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]"
-          >
-            <el-input v-model="fromInput.userName" />
-          </el-form-item>
-          <el-form-item
-            prop="name"
-            label="姓名"
-            :rules="[{ required: true, message: '请输入姓名', trigger: 'blur' }]"
-          >
-            <el-input v-model="fromInput.name" />
-          </el-form-item>
-          <el-form-item
-            prop="phoneNumber"
-            label="手机号码"
-            :rules="[{ required: true, message: '请输入手机号码', trigger: 'blur' }]"
-          >
-            <el-input v-model="fromInput.phoneNumber" />
-          </el-form-item>
-          <el-form-item
-            prop="emailAddress"
-            label="电子邮箱"
-            :rules="[{ required: true, type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }]"
-          >
-            <el-input v-model="fromInput.emailAddress" />
-          </el-form-item>
-          <div v-if="isAdd">
+        <el-form :ref="refFormName" :model="fromInput" label-width="100px">
+          <div v-if="!isResetPassword">
+            <el-form-item
+              prop="userName"
+              label="用户名"
+              :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]"
+            >
+              <el-input v-model="fromInput.userName" />
+            </el-form-item>
+            <el-form-item
+              prop="name"
+              label="姓名"
+              :rules="[{ required: true, message: '请输入姓名', trigger: 'blur' }]"
+            >
+              <el-input v-model="fromInput.name" />
+            </el-form-item>
+            <el-form-item
+              prop="phoneNumber"
+              label="手机号码"
+              :rules="[{ required: true, message: '请输入手机号码', trigger: 'blur' }]"
+            >
+              <el-input v-model="fromInput.phoneNumber" />
+            </el-form-item>
+            <el-form-item
+              prop="emailAddress"
+              label="电子邮箱"
+              :rules="[{ required: true, type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }]"
+            >
+              <el-input v-model="fromInput.emailAddress" />
+            </el-form-item>
+          </div>
+          <div v-if="isAdd || isResetPassword">
+            <el-form-item
+              v-if="isResetPassword"
+              prop="adminPassword"
+              label="管理员密码"
+              auto-complete="off"
+              :rules="[{ required: true, message: '请输入管理员密码', trigger: 'blur' }]"
+            >
+              <el-input v-model="fromInput.adminPassword" type="password" />
+            </el-form-item>
             <el-form-item
               prop="password"
               label="密码"
@@ -53,7 +64,7 @@
           </div>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="角色信息" name="second">
+      <el-tab-pane v-if="!isResetPassword" label="角色信息" name="second">
         <p>请勾选此用户所属角色：</p>
         <el-checkbox-group v-model="fromInput.roleNames">
           <el-checkbox
@@ -88,13 +99,15 @@ const defaultInput = {
 export default {
   mixins: [action],
   props: {
+    isResetPassword: { type: Boolean, default: false },
     editInput: { type: Object, default: () => defaultInput }
   },
   data() {
     return {
       fromInput: {},
       activeTab: 'first',
-      refFormName: 'dataForm'
+      refFormName: 'dataForm',
+      adminPassword: ''
     }
   },
   mounted() {
@@ -117,12 +130,24 @@ export default {
       this.validateConfirm(this.refFormName, async() => {
         const input_data = Object.assign({}, this.fromInput)
         input_data.surname = this.fromInput.name
-        if (input_data.id > 0) {
-          await app.user.update(input_data)
-        } else {
+        if (this.isAdd) {
           await app.user.create(input_data)
+        } else {
+          if (this.isResetPassword) {
+            await app.user.resetPassword({
+              adminPassword: this.fromInput.adminPassword,
+              userId: this.fromInput.id,
+              newPassword: this.fromInput.password
+            })
+          } else {
+            await app.user.update(input_data)
+          }
         }
-
+        this.$notify.success({
+          title: '成功',
+          message:
+            '操作成功'
+        })
         this.$emit('close')
         this.$emit('queryList')
       }, msg)
