@@ -95,7 +95,11 @@
       </el-table-column>
       <el-table-column header-align="center" align="center" label="用户名" prop="userName" />
       <el-table-column header-align="center" align="center" label="姓名" prop="name" />
-      <!-- <el-table-column header-align="center" align="center" label="角色" prop="roleNames" /> -->
+      <el-table-column header-align="center" align="center" label="角色" prop="roleDisplayNames">
+        <template slot-scope="scope">
+          <span>{{ scope.row.roleDisplayNames.join('，') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         v-for="(item,index) in columnList"
         :key="index"
@@ -125,14 +129,16 @@
       @pagination="pageChange"
     />
 
-    <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
-      <add-or-edit
-        :edit-input="addOrEditDialog.input"
-        :is-add="addOrEditDialog.isAdd"
-        @queryList="queryList"
-        @close="addOrEditDialog.isShow=false"
-      />
-    </el-dialog>
+    <div v-if="addOrEditDialog.isShow">
+      <el-dialog :title="addOrEditDialog.title" :visible.sync="addOrEditDialog.isShow">
+        <add-or-edit
+          :edit-input="addOrEditDialog.input"
+          :is-add="addOrEditDialog.isAdd"
+          @queryList="queryList"
+          @close="addOrEditDialog.isShow=false"
+        />
+      </el-dialog>
+    </div>
   </div>
 </template>
 
