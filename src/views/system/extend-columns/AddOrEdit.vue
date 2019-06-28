@@ -32,6 +32,15 @@
             >
               <el-input v-model="fromInput.emailAddress" />
             </el-form-item>
+
+            <el-form-item
+              v-for="(item, index) in dynamicColumns"
+              :key="index"
+              :label="item.title"
+              :prop="item.key"
+            >
+              <el-input v-model="item.value" />
+            </el-form-item>
           </div>
           <div v-if="isAdd || isResetPassword">
             <el-form-item
@@ -94,7 +103,8 @@ const defaultInput = {
   emailAddress: '',
   isActive: true,
   roleNames: [],
-  password: ''
+  password: '',
+  extensionData: {}
 }
 export default {
   mixins: [action],
@@ -107,7 +117,18 @@ export default {
       fromInput: {},
       activeTab: 'first',
       refFormName: 'dataForm',
-      adminPassword: ''
+      dynamicColumns: [
+        {
+          key: 'Test',
+          title: '测试',
+          value: ''
+        },
+        {
+          key: 'Age',
+          title: '年龄',
+          value: ''
+        }
+      ]
     }
   },
   mounted() {
@@ -115,6 +136,12 @@ export default {
       this.fromInput = Object.assign({}, defaultInput)
     } else {
       this.fromInput = this.editInput
+
+      this.dynamicColumns.forEach(item => {
+        if (this.fromInput.extension.hasOwnProperty(item.key)) {
+          item.value = this.fromInput.extension[item.key]
+        }
+      })
     }
     this.init()
   },
@@ -123,6 +150,11 @@ export default {
       this.comm.initRoles()
     },
     saveHandler() {
+      const extensionData = {}
+      this.dynamicColumns.forEach(item => {
+        extensionData[item.key] = item.value
+      })
+      this.fromInput.extensionData = JSON.stringify(extensionData)
       let msg = '确定要新增？'
       if (this.fromInput.id > 0) {
         msg = '确定要修改？'

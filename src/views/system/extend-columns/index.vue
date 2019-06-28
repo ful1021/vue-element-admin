@@ -105,9 +105,10 @@
         :key="index"
         header-align="center"
         align="center"
-        :label="item.label"
+        :label="item.title"
+        :width="item.width"
       >
-        <template slot-scope="scope">{{ scope.row[item.colName] }}</template>
+        <template slot-scope="scope">{{ scope.row[item.key] }}</template>
       </el-table-column>
       <el-table-column header-align="center" align="center" label="最后登录时间">
         <template slot-scope="scope">
@@ -155,12 +156,12 @@ export default {
     return {
       columnList: [
         {
-          label: '手机号',
-          colName: 'phoneNumber'
+          title: '手机号',
+          key: 'phoneNumber'
         },
         {
-          label: '邮箱',
-          colName: 'emailAddress'
+          title: '邮箱',
+          key: 'emailAddress'
         }
       ]
     }
