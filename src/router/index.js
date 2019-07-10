@@ -83,17 +83,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/account',
-    component: Layout,
-    children: [
-      {
-        path: 'register',
-        component: () => import('@/views/system/user/register'),
-        meta: { title: '注册', icon: 'dashboard' }
-      }
-    ]
-  },
+
   // {
   //   path: '/documentation',
   //   component: Layout,
