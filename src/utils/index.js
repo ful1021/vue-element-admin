@@ -17,10 +17,10 @@ export function parseTime(time, cFormat) {
   if (typeof time === 'object') {
     date = time
   } else {
-    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
+    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
       time = parseInt(time)
     }
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
+    if (typeof time === 'number' && time.toString().length === 10) {
       time = time * 1000
     }
     date = new Date(time)
@@ -37,7 +37,9 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -119,7 +121,7 @@ export function byteLength(str) {
     const code = str.charCodeAt(i)
     if (code > 0x7f && code <= 0x7ff) s++
     else if (code > 0x7ff && code <= 0xffff) s += 2
-    if (code >= 0xDC00 && code <= 0xDFFF) i--
+    if (code >= 0xdc00 && code <= 0xdfff) i--
   }
   return s
 }
@@ -346,5 +348,80 @@ export function removeClass(ele, cls) {
   if (hasClass(ele, cls)) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
+  }
+}
+
+export function extend(...args) {
+  let options
+  let name
+  let src
+  let srcType
+  let copy
+  let copyIsArray
+  let clone
+  let target = args[0] || {}
+  let i = 1
+  const length = args.length
+  let deep = false
+  if (typeof target === 'boolean') {
+    deep = target
+    target = args[i] || {}
+    i++
+  }
+  if (typeof target !== 'object' && typeof target !== 'function') {
+    target = {}
+  }
+  if (i === length) {
+    target = this
+    i--
+  }
+  for (; i < length; i++) {
+    if ((options = args[i]) !== null) {
+      for (name in options) {
+        src = target[name]
+        copy = options[name]
+        if (target === copy) {
+          continue
+        }
+        srcType = Array.isArray(src) ? 'array' : typeof src
+        if (
+          deep &&
+          copy &&
+          ((copyIsArray = Array.isArray(copy)) || typeof copy === 'object')
+        ) {
+          if (copyIsArray) {
+            copyIsArray = false
+            clone = src && srcType === 'array' ? src : []
+          } else {
+            clone = src && srcType === 'object' ? src : {}
+          }
+          target[name] = extend(deep, clone, copy)
+        } else if (copy !== undefined) {
+          target[name] = copy
+        }
+      }
+    }
+  }
+  return target
+}
+
+export function reloadPage() {
+  location.href = location.origin
+}
+
+export function openPage(path) {
+  window.open(`${window.location.href.split('#')[0]}#${path}`)
+}
+
+// 使用隐藏 iframe 打开一个页面，一般用于下载文件 导出EXcel等
+export function downloadFileIframe(src) {
+  // window.open(site.Config.webapiDomain + src);
+  let downloadIframe = document.createElement('iframe')
+  downloadIframe.src = location.origin + src
+  downloadIframe.style.cssText = 'width:0px;height:0px;display:none;'
+  document.body.appendChild(downloadIframe)
+  downloadIframe.onload = function() {
+    document.body.removeChild(downloadIframe)
+    downloadIframe = null
   }
 }

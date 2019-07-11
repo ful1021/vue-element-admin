@@ -7,6 +7,7 @@
       :layout="layout"
       :page-sizes="pageSizes"
       :total="total"
+      :hide-on-single-page="total<pageSize"
       v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
