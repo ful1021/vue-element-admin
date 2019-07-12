@@ -35,7 +35,7 @@ const mutations = {
   }
 }
 function setBearerToken(commit, response) {
-  const token = 'Bearer ' + response.accessToken
+  const token = response.accessToken
   commit('SET_TOKEN', token)
   setToken(token)
 }

@@ -12,7 +12,7 @@ const app = {
           {
             url: '/api/TokenAuth/Authenticate',
             method: 'POST',
-            data: JSON.stringify(model)
+            data: model
           },
           ajaxParams
         )
@@ -78,6 +78,32 @@ const app = {
     }
   },
   user: {
+    deleteTest(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/User/DeleteTest',
+            method: 'DELETE',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    getUsersToExcel(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/User/GetUsersToExcel',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
     create(input, ajaxParams) {
       return request(
         extend(
@@ -85,7 +111,7 @@ const app = {
           {
             url: '/api/services/app/User/Create',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -98,7 +124,7 @@ const app = {
           {
             url: '/api/services/app/User/Update',
             method: 'PUT',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -109,11 +135,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/User/Delete' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'DELETE'
+            url: '/api/services/app/User/Delete',
+            method: 'DELETE',
+            params: input
           },
           ajaxParams
         )
@@ -126,7 +150,7 @@ const app = {
           {
             url: '/api/services/app/User/UnlockUser',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -151,7 +175,7 @@ const app = {
           {
             url: '/api/services/app/User/ChangeLanguage',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -164,7 +188,7 @@ const app = {
           {
             url: '/api/services/app/User/ChangePassword',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -177,22 +201,7 @@ const app = {
           {
             url: '/api/services/app/User/ResetPassword',
             method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    get(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/User/Get' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
+            data: input
           },
           ajaxParams
         )
@@ -203,16 +212,35 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/User/GetAll' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'isActive', value: input.isActive },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
+            url: '/api/services/app/User/GetAll',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    getAllList(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/User/GetAllList',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    get(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/User/Get',
+            method: 'GET',
+            params: input
           },
           ajaxParams
         )
@@ -239,13 +267,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Role/GetRolesAsync' +
-              abp.utils.buildQueryString([
-                { name: 'permission', value: input.permission }
-              ]) +
-              '',
-            method: 'GET'
+            url: '/api/services/app/Role/GetRolesAsync',
+            method: 'GET',
+            params: input
           },
           ajaxParams
         )
@@ -256,11 +280,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Role/Delete' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'DELETE'
+            url: '/api/services/app/Role/Delete',
+            method: 'DELETE',
+            params: input
           },
           ajaxParams
         )
@@ -283,11 +305,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Role/GetRoleForEdit' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
+            url: '/api/services/app/Role/GetRoleForEdit',
+            method: 'GET',
+            params: input
           },
           ajaxParams
         )
@@ -300,22 +320,7 @@ const app = {
           {
             url: '/api/services/app/Role/CreateOrUpdateRole',
             method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    get(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Role/Get' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
+            data: input
           },
           ajaxParams
         )
@@ -326,15 +331,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Role/GetAll' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
+            url: '/api/services/app/Role/GetAll',
+            method: 'GET',
+            params: input
           },
           ajaxParams
         )
@@ -345,15 +344,22 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Role/GetAllList' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
+            url: '/api/services/app/Role/GetAllList',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    get(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/Role/Get',
+            method: 'GET',
+            params: input
           },
           ajaxParams
         )
@@ -366,7 +372,7 @@ const app = {
           {
             url: '/api/services/app/Role/Create',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -379,7 +385,7 @@ const app = {
           {
             url: '/api/services/app/Role/Update',
             method: 'PUT',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -394,7 +400,7 @@ const app = {
           {
             url: '/api/services/app/Tenant/Create',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -405,11 +411,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Tenant/Delete' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'DELETE'
+            url: '/api/services/app/Tenant/Delete',
+            method: 'DELETE',
+            params: input
           },
           ajaxParams
         )
@@ -420,11 +424,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Tenant/Get' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
+            url: '/api/services/app/Tenant/Get',
+            method: 'GET',
+            params: input
           },
           ajaxParams
         )
@@ -435,16 +437,9 @@ const app = {
         extend(
           true,
           {
-            url:
-              '/api/services/app/Tenant/GetAll' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'isActive', value: input.isActive },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
+            url: '/api/services/app/Tenant/GetAll',
+            method: 'GET',
+            params: input
           },
           ajaxParams
         )
@@ -457,7 +452,87 @@ const app = {
           {
             url: '/api/services/app/Tenant/Update',
             method: 'PUT',
-            data: JSON.stringify(input)
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
+  extendColumn: {
+    getAll(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/ExtendColumn/GetAll',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    getAllList(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/ExtendColumn/GetAllList',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    get(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/ExtendColumn/Get',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    create(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/ExtendColumn/Create',
+            method: 'POST',
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/ExtendColumn/Update',
+            method: 'PUT',
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    delete(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/ExtendColumn/Delete',
+            method: 'DELETE',
+            params: input
           },
           ajaxParams
         )
@@ -483,6 +558,86 @@ const app = {
       )
     }
   },
+  dataDictionary: {
+    getAll(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/DataDictionary/GetAll',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    getAllList(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/DataDictionary/GetAllList',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    get(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/DataDictionary/Get',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    create(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/DataDictionary/Create',
+            method: 'POST',
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/DataDictionary/Update',
+            method: 'PUT',
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    delete(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/DataDictionary/Delete',
+            method: 'DELETE',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
   configuration: {
     changeUiTheme(input, ajaxParams) {
       return request(
@@ -491,7 +646,87 @@ const app = {
           {
             url: '/api/services/app/Configuration/ChangeUiTheme',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
+  bizLog: {
+    getAll(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/BizLog/GetAll',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    getAllList(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/BizLog/GetAllList',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    get(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/BizLog/Get',
+            method: 'GET',
+            params: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    create(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/BizLog/Create',
+            method: 'POST',
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/BizLog/Update',
+            method: 'PUT',
+            data: input
+          },
+          ajaxParams
+        )
+      )
+    },
+    delete(input, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/BizLog/Delete',
+            method: 'DELETE',
+            params: input
           },
           ajaxParams
         )
@@ -506,7 +741,7 @@ const app = {
           {
             url: '/api/services/app/Account/IsTenantAvailable',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -519,7 +754,7 @@ const app = {
           {
             url: '/api/services/app/Account/Register',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -532,7 +767,7 @@ const app = {
           {
             url: '/api/services/app/Account/Impersonate',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )
@@ -557,7 +792,7 @@ const app = {
           {
             url: '/api/services/app/Account/SwitchToLinkedAccount',
             method: 'POST',
-            data: JSON.stringify(input)
+            data: input
           },
           ajaxParams
         )

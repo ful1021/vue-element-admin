@@ -22,6 +22,14 @@
           :value="item.value"
         />
       </el-select>
+
+      <el-date-picker
+        v-model="filters.lastLoginTime"
+        size="small"
+        format="yyyy-MM-dd"
+        type="daterange"
+        placeholder="选择日期范围"
+      />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="queryList">搜索</el-button>
     </div>
     <div class="filter-container">
@@ -54,6 +62,21 @@
         icon="el-icon-download"
         @click="handleDownload"
       >条件导出</el-button>
+      <el-button
+        v-has:Delete
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="danger"
+        @click="handleDelete(app.user.delete)"
+      >删除</el-button>
+
+      <el-button
+        v-has:Delete
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="danger"
+        @click="app.user.deleteTest({a:1,b:2})"
+      >test</el-button>
       <!-- <toggle-table-column :column-list="columnList" :all-column-list="columnList" /> -->
     </div>
 
@@ -154,6 +177,7 @@ export default {
   mixins: [query],
   data() {
     return {
+      app: app,
       columnList: [
         {
           title: '手机号',

@@ -131,6 +131,9 @@ export default {
       ]
     }
   },
+  created() {
+    console.log(JSON.stringify(this.comm.roleList))
+  },
   mounted() {
     if (this.isAdd) {
       this.fromInput = Object.assign({}, defaultInput)

@@ -89,7 +89,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'register',
-        component: () => import('@/views/system/user/register'),
+        component: () => import('@/views/system/users/register'),
         meta: { title: '注册', icon: 'dashboard' }
       }
     ]

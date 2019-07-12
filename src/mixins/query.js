@@ -57,7 +57,6 @@ export default {
     },
     async getList(queryListHandler, extFilters, callback) {
       const input_data = Object.assign({}, this.filters, extFilters || {})
-
       const result = await queryListHandler(input_data)
 
       this.isShowLoading = false
@@ -114,6 +113,19 @@ export default {
       this.addOrEditDialog.title = '修改'
       this.addOrEditDialog.isShow = true
       this.addOrEditDialog.isAdd = false
+    },
+
+    handleDelete(handerAction, handerRows) {
+      if (this.selectLeastOne()) {
+        this.handlerBatch(
+          handerAction,
+          '删除',
+          handerRows ||
+            this.selectRows.map(a => {
+              return { id: a.id }
+            })
+        )
+      }
     },
 
     /**
