@@ -405,6 +405,21 @@ export function extend(...args) {
   return target
 }
 
+export function enumValue(data, arrs) {
+  if (!arrs) {
+    return data
+  }
+  const namearr = arrs.find(a => a.name === data)
+  if (namearr) {
+    return namearr.text
+  }
+  const valuearr = arrs.find(a => a.value === data)
+  if (valuearr) {
+    return valuearr.text
+  }
+  return data
+}
+
 export function reloadPage() {
   location.href = location.origin
 }

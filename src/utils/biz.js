@@ -14,6 +14,8 @@ export default {
   ],
 
   roleList: [],
+  extendTableNameList: [],
+
   // 初始化角色
   async initRoles(paramData) {
     // const param = paramData || {}

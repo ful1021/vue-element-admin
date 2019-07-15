@@ -16,7 +16,7 @@
         class="filter-item"
       >
         <el-option
-          v-for="(item,index) in comm.boolList"
+          v-for="(item,index) in biz.boolList"
           :key="index"
           :label="item.text"
           :value="item.value"
@@ -70,13 +70,6 @@
         @click="handleDelete(app.user.delete)"
       >删除</el-button>
 
-      <el-button
-        v-has:Delete
-        class="filter-item"
-        style="margin-left: 10px;"
-        type="danger"
-        @click="app.user.deleteTest({a:1,b:2})"
-      >test</el-button>
       <!-- <toggle-table-column :column-list="columnList" :all-column-list="columnList" /> -->
     </div>
 

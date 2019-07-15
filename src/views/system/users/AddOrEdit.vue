@@ -77,7 +77,7 @@
         <p>请勾选此用户所属角色：</p>
         <el-checkbox-group v-model="fromInput.roleNames">
           <el-checkbox
-            v-for="(item,index) in comm.roleList"
+            v-for="(item,index) in biz.roleList"
             :key="index"
             :label="item.normalizedName"
           >{{ item.displayName }}</el-checkbox>
@@ -132,7 +132,7 @@ export default {
     }
   },
   created() {
-    console.log(JSON.stringify(this.comm.roleList))
+    console.log(JSON.stringify(this.biz.roleList))
   },
   mounted() {
     if (this.isAdd) {
@@ -150,7 +150,7 @@ export default {
   },
   methods: {
     init() {
-      this.comm.initRoles()
+      this.biz.initRoles()
     },
     saveHandler() {
       const extensionData = {}

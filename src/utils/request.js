@@ -53,39 +53,48 @@ service.interceptors.response.use(
     return res
   },
   resError => {
-    const res = resError.response.data
-    const error = res.error
-    if (error) {
-      Message({
-        message: error.details || error.message || 'error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-      const unAuthorizedRequest = res.unAuthorizedRequest
-      if (unAuthorizedRequest === true) {
-        // to re-login
-        MessageBox.confirm(
-          'You have been logged out, you can cancel to stay on this page, or log in again',
-          'Confirm logout',
-          {
-            confirmButtonText: 'Re-Login',
-            cancelButtonText: 'Cancel',
-            type: 'warning'
-          }
-        ).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
+    if (resError.response) {
+      const res = resError.response.data
+      const error = res.error
+      if (error) {
+        Message({
+          message: error.details || error.message || 'error',
+          type: 'error',
+          duration: 5 * 1000
         })
+        const unAuthorizedRequest = res.unAuthorizedRequest
+        if (unAuthorizedRequest === true) {
+          // to re-login
+          MessageBox.confirm(
+            'You have been logged out, you can cancel to stay on this page, or log in again',
+            'Confirm logout',
+            {
+              confirmButtonText: 'Re-Login',
+              cancelButtonText: 'Cancel',
+              type: 'warning'
+            }
+          ).then(() => {
+            store.dispatch('user/resetToken').then(() => {
+              location.reload()
+            })
+          })
+        }
+        return Promise.reject(new Error(res.message || 'Error'))
+      } else {
+        Message({
+          message: error.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return Promise.reject(error)
       }
-      return Promise.reject(new Error(res.message || 'Error'))
     } else {
       Message({
-        message: error.message,
+        message: 'error',
         type: 'error',
         duration: 5 * 1000
       })
-      return Promise.reject(error)
+      return Promise.reject()
     }
   }
 )

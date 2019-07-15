@@ -78,27 +78,14 @@ const app = {
     }
   },
   user: {
-    deleteTest(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/DeleteTest',
-            method: 'DELETE',
-            params: input
-          },
-          ajaxParams
-        )
-      )
-    },
     getUsersToExcel(input, ajaxParams) {
       return request(
         extend(
           true,
           {
             url: '/api/services/app/User/GetUsersToExcel',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -123,7 +110,7 @@ const app = {
           true,
           {
             url: '/api/services/app/User/Update',
-            method: 'PUT',
+            method: 'POST',
             data: input
           },
           ajaxParams
@@ -136,8 +123,8 @@ const app = {
           true,
           {
             url: '/api/services/app/User/Delete',
-            method: 'DELETE',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -162,7 +149,7 @@ const app = {
           true,
           {
             url: '/api/services/app/User/GetRoles',
-            method: 'GET'
+            method: 'POST'
           },
           ajaxParams
         )
@@ -213,8 +200,8 @@ const app = {
           true,
           {
             url: '/api/services/app/User/GetAll',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -226,8 +213,8 @@ const app = {
           true,
           {
             url: '/api/services/app/User/GetAllList',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -239,8 +226,8 @@ const app = {
           true,
           {
             url: '/api/services/app/User/Get',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -254,7 +241,7 @@ const app = {
           true,
           {
             url: '/api/services/app/Session/GetCurrentLoginInformations',
-            method: 'GET'
+            method: 'POST'
           },
           ajaxParams
         )
@@ -268,8 +255,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/GetRolesAsync',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -281,8 +268,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/Delete',
-            method: 'DELETE',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -294,7 +281,7 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/GetAllPermissions',
-            method: 'GET'
+            method: 'POST'
           },
           ajaxParams
         )
@@ -306,8 +293,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/GetRoleForEdit',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -332,8 +319,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/GetAll',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -345,8 +332,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/GetAllList',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -358,8 +345,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/Get',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -384,7 +371,7 @@ const app = {
           true,
           {
             url: '/api/services/app/Role/Update',
-            method: 'PUT',
+            method: 'POST',
             data: input
           },
           ajaxParams
@@ -412,8 +399,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Tenant/Delete',
-            method: 'DELETE',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -425,8 +412,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Tenant/Get',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -438,8 +425,8 @@ const app = {
           true,
           {
             url: '/api/services/app/Tenant/GetAll',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -451,7 +438,7 @@ const app = {
           true,
           {
             url: '/api/services/app/Tenant/Update',
-            method: 'PUT',
+            method: 'POST',
             data: input
           },
           ajaxParams
@@ -466,8 +453,8 @@ const app = {
           true,
           {
             url: '/api/services/app/ExtendColumn/GetAll',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -479,8 +466,8 @@ const app = {
           true,
           {
             url: '/api/services/app/ExtendColumn/GetAllList',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -492,8 +479,8 @@ const app = {
           true,
           {
             url: '/api/services/app/ExtendColumn/Get',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -518,7 +505,7 @@ const app = {
           true,
           {
             url: '/api/services/app/ExtendColumn/Update',
-            method: 'PUT',
+            method: 'POST',
             data: input
           },
           ajaxParams
@@ -531,8 +518,8 @@ const app = {
           true,
           {
             url: '/api/services/app/ExtendColumn/Delete',
-            method: 'DELETE',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -565,8 +552,8 @@ const app = {
           true,
           {
             url: '/api/services/app/DataDictionary/GetAll',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -578,8 +565,8 @@ const app = {
           true,
           {
             url: '/api/services/app/DataDictionary/GetAllList',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -591,8 +578,8 @@ const app = {
           true,
           {
             url: '/api/services/app/DataDictionary/Get',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -617,7 +604,7 @@ const app = {
           true,
           {
             url: '/api/services/app/DataDictionary/Update',
-            method: 'PUT',
+            method: 'POST',
             data: input
           },
           ajaxParams
@@ -630,8 +617,8 @@ const app = {
           true,
           {
             url: '/api/services/app/DataDictionary/Delete',
-            method: 'DELETE',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -660,8 +647,8 @@ const app = {
           true,
           {
             url: '/api/services/app/BizLog/GetAll',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -673,8 +660,8 @@ const app = {
           true,
           {
             url: '/api/services/app/BizLog/GetAllList',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -686,8 +673,8 @@ const app = {
           true,
           {
             url: '/api/services/app/BizLog/Get',
-            method: 'GET',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )
@@ -712,7 +699,7 @@ const app = {
           true,
           {
             url: '/api/services/app/BizLog/Update',
-            method: 'PUT',
+            method: 'POST',
             data: input
           },
           ajaxParams
@@ -725,8 +712,8 @@ const app = {
           true,
           {
             url: '/api/services/app/BizLog/Delete',
-            method: 'DELETE',
-            params: input
+            method: 'POST',
+            data: input
           },
           ajaxParams
         )

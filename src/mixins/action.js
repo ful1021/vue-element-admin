@@ -1,5 +1,5 @@
 import confirm from '@/mixins/confirm'
-import comm from '@/mixins/comm'
+import biz from '@/utils/biz'
 export default {
   mixins: [confirm],
   props: {
@@ -7,7 +7,7 @@ export default {
   },
   data() {
     return {
-      comm: comm
+      biz: biz
     }
   }
 }

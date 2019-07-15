@@ -56,66 +56,51 @@
       >
         <el-input v-model="fromInput.passwordRepeat" type="password" />
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="saveHandler">注册</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
 import { app } from '@/api/api'
-import action from '@/mixins/action'
+import biz from '@/utils/biz'
 export default {
-  mixins: [action],
   data() {
     return {
+      biz: biz,
+      refFormName: 'dataForm',
       fromInput: {},
-      dynamicColumns: [
-        {
-          key: 'Test',
-          title: '测试',
-          value: ''
-        },
-        {
-          key: 'Age',
-          title: '年龄',
-          value: ''
-        }
-      ]
+      dynamicColumns: []
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    async init() {
+      const extColumns = await app.extendColumn.getAll({
+        tableNames: [1]
+      })
+      this.dynamicColumns = extColumns.items
+    },
     saveHandler() {
       const extensionData = {}
       this.dynamicColumns.forEach(item => {
         extensionData[item.key] = item.value
       })
       this.fromInput.extensionData = JSON.stringify(extensionData)
-      let msg = '确定要新增？'
-      if (this.fromInput.id > 0) {
-        msg = '确定要修改？'
-      }
+      const msg = '确定要注册？'
       this.validateConfirm(this.refFormName, async() => {
         const input_data = Object.assign({}, this.fromInput)
         input_data.surname = this.fromInput.name
-        if (this.isAdd) {
-          await app.user.create(input_data)
-        } else {
-          if (this.isResetPassword) {
-            await app.user.resetPassword({
-              adminPassword: this.fromInput.adminPassword,
-              userId: this.fromInput.id,
-              newPassword: this.fromInput.password
-            })
-          } else {
-            await app.user.update(input_data)
-          }
-        }
+        await app.account.register(input_data)
         this.$notify.success({
           title: '成功',
           message:
-            '操作成功'
+            '注册成功'
         })
-        this.$emit('close')
-        this.$emit('queryList')
       }, msg)
     },
     validatePass2(rule, value, callback) {
@@ -126,6 +111,24 @@ export default {
       } else {
         callback()
       }
+    },
+    confirmHandler(handerAction, handlerName) {
+      handlerName = handlerName || '确定要操作吗？'
+      this.$confirm(handlerName, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(handerAction)
+        .catch(() => { })
+    },
+
+    validateConfirm(refsName, handerAction, handlerName) {
+      this.$refs[refsName].validate(valid => {
+        if (valid) {
+          this.confirmHandler(handerAction, handlerName)
+        }
+      })
     }
   }
 }

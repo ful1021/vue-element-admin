@@ -1,12 +1,12 @@
 import Pagination from '@/components/Pagination'
-import comm from '@/mixins/comm'
+import biz from '@/utils/biz'
 export default {
   components: { Pagination },
   data() {
     return {
       auth: abp.auth,
       session: abp.session,
-      comm: comm,
+      biz: biz,
       tableKey: 0,
       isShowLoading: true,
       filters: {
