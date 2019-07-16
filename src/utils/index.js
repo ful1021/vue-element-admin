@@ -440,3 +440,40 @@ export function downloadFileIframe(src) {
     downloadIframe = null
   }
 }
+
+export function confirmHandler(_this, handerAction, handlerName) {
+  handlerName = handlerName || '确定要操作吗？'
+  _this
+    .$confirm(handlerName, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+    .then(handerAction)
+    .catch(() => {})
+}
+
+export function validateConfirm(_this, refsName, handerAction, handlerName) {
+  _this.$refs[refsName].validate(valid => {
+    if (valid) {
+      // this.confirmHandler(_this, handerAction, handlerName)
+      handlerName = handlerName || '确定要操作吗？'
+      _this
+        .$confirm(handlerName, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        .then(handerAction)
+        .catch(() => {})
+    }
+  })
+}
+
+export function preExtensionData(dynamicColumns) {
+  const extensionData = {}
+  dynamicColumns.forEach(item => {
+    extensionData[item.key] = item.value
+  })
+  return JSON.stringify(extensionData)
+}

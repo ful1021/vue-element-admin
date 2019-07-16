@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="refFormName" :model="fromInput" label-width="100px">
+    <el-form :ref="refFormName" :model="fromInput" label-width="100px">
       <el-form-item
         prop="userName"
         label="用户名"
@@ -66,6 +66,7 @@
 <script>
 import { app } from '@/api/api'
 import biz from '@/utils/biz'
+import { validateConfirm, preExtensionData } from '@/utils/index'
 export default {
   data() {
     return {
@@ -85,14 +86,9 @@ export default {
       })
       this.dynamicColumns = extColumns.items
     },
-    saveHandler() {
-      const extensionData = {}
-      this.dynamicColumns.forEach(item => {
-        extensionData[item.key] = item.value
-      })
-      this.fromInput.extensionData = JSON.stringify(extensionData)
-      const msg = '确定要注册？'
-      this.validateConfirm(this.refFormName, async() => {
+    async saveHandler() {
+      this.fromInput.extensionData = await preExtensionData(this.dynamicColumns)
+      validateConfirm(this, this.refFormName, async() => {
         const input_data = Object.assign({}, this.fromInput)
         input_data.surname = this.fromInput.name
         await app.account.register(input_data)
@@ -101,7 +97,7 @@ export default {
           message:
             '注册成功'
         })
-      }, msg)
+      }, '确定要注册？')
     },
     validatePass2(rule, value, callback) {
       if (value === '') {
@@ -111,24 +107,6 @@ export default {
       } else {
         callback()
       }
-    },
-    confirmHandler(handerAction, handlerName) {
-      handlerName = handlerName || '确定要操作吗？'
-      this.$confirm(handlerName, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(handerAction)
-        .catch(() => { })
-    },
-
-    validateConfirm(refsName, handerAction, handlerName) {
-      this.$refs[refsName].validate(valid => {
-        if (valid) {
-          this.confirmHandler(handerAction, handlerName)
-        }
-      })
     }
   }
 }
