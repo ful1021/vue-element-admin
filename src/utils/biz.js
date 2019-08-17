@@ -34,11 +34,6 @@ export default {
       const key = k + 'List'
       this[key] = result[k]
     }
-  },
-
-  rootUrl: window.location.href.split('#')[0],
-  openPage(path) {
-    window.open(`${this.rootUrl}#${path}`)
   }
 
   // openFile(url) {

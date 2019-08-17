@@ -66,7 +66,7 @@
 <script>
 import { app } from '@/api/api'
 import biz from '@/utils/biz'
-import { validateConfirm, preExtensionData } from '@/utils/index'
+import tool from '@/utils/index'
 export default {
   data() {
     return {
@@ -87,8 +87,8 @@ export default {
       this.dynamicColumns = extColumns.items
     },
     async saveHandler() {
-      this.fromInput.extensionData = await preExtensionData(this.dynamicColumns)
-      validateConfirm(this, this.refFormName, async() => {
+      this.fromInput.extensionData = await tool.preExtensionData(this.dynamicColumns)
+      tool.validateConfirm(this, this.refFormName, async() => {
         const input_data = Object.assign({}, this.fromInput)
         input_data.surname = this.fromInput.name
         await app.account.register(input_data)

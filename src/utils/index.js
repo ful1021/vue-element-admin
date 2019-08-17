@@ -469,75 +469,77 @@ export function buildQueryString(parameterInfos, includeQuestionMark) {
   return qs
 }
 
-export function enumValue(data, arrs) {
-  if (!arrs) {
-    return data
-  }
-  const namearr = arrs.find(a => a.name === data)
-  if (namearr) {
-    return namearr.text
-  }
-  const valuearr = arrs.find(a => a.value === data)
-  if (valuearr) {
-    return valuearr.text
-  }
-  return data
-}
-
-export function reloadPage() {
-  location.href = location.origin
-}
-
-export function openPage(path) {
-  window.open(`${window.location.href.split('#')[0]}#${path}`)
-}
-
-// 使用隐藏 iframe 打开一个页面，一般用于下载文件 导出EXcel等
-export function downloadFileIframe(src) {
-  // window.open(site.Config.webapiDomain + src);
-  let downloadIframe = document.createElement('iframe')
-  downloadIframe.src = location.origin + src
-  downloadIframe.style.cssText = 'width:0px;height:0px;display:none;'
-  document.body.appendChild(downloadIframe)
-  downloadIframe.onload = function() {
-    document.body.removeChild(downloadIframe)
-    downloadIframe = null
-  }
-}
-
-export function confirmHandler(_this, handerAction, handlerName) {
-  handlerName = handlerName || '确定要操作吗？'
-  _this
-    .$confirm(handlerName, '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    })
-    .then(handerAction)
-    .catch(() => {})
-}
-
-export function validateConfirm(_this, refsName, handerAction, handlerName) {
-  _this.$refs[refsName].validate(valid => {
-    if (valid) {
-      // this.confirmHandler(_this, handerAction, handlerName)
-      handlerName = handlerName || '确定要操作吗？'
-      _this
-        .$confirm(handlerName, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-        .then(handerAction)
-        .catch(() => {})
+export default {
+  enumValue(data, arrs) {
+    if (!arrs) {
+      return data
     }
-  })
-}
+    const namearr = arrs.find(a => a.name === data)
+    if (namearr) {
+      return namearr.text
+    }
+    const valuearr = arrs.find(a => a.value === data)
+    if (valuearr) {
+      return valuearr.text
+    }
+    return data
+  },
 
-export function preExtensionData(dynamicColumns) {
-  const extensionData = {}
-  dynamicColumns.forEach(item => {
-    extensionData[item.key] = item.value
-  })
-  return JSON.stringify(extensionData)
+  reloadPage() {
+    location.href = location.origin
+  },
+
+  openPage(path) {
+    window.open(`${window.location.href.split('#')[0]}#${path}`)
+  },
+
+  // 使用隐藏 iframe 打开一个页面，一般用于下载文件 导出EXcel等
+  downloadFileIframe(src) {
+    // window.open(site.Config.webapiDomain + src);
+    let downloadIframe = document.createElement('iframe')
+    downloadIframe.src = location.origin + src
+    downloadIframe.style.cssText = 'width:0px;height:0px;display:none;'
+    document.body.appendChild(downloadIframe)
+    downloadIframe.onload = function() {
+      document.body.removeChild(downloadIframe)
+      downloadIframe = null
+    }
+  },
+
+  confirmHandler(_this, handerAction, handlerName) {
+    handlerName = handlerName || '确定要操作吗？'
+    _this
+      .$confirm(handlerName, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+      .then(handerAction)
+      .catch(() => {})
+  },
+
+  validateConfirm(_this, refsName, handerAction, handlerName) {
+    _this.$refs[refsName].validate(valid => {
+      if (valid) {
+        // this.confirmHandler(_this, handerAction, handlerName)
+        handlerName = handlerName || '确定要操作吗？'
+        _this
+          .$confirm(handlerName, '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+          .then(handerAction)
+          .catch(() => {})
+      }
+    })
+  },
+
+  preExtensionData(dynamicColumns) {
+    const extensionData = {}
+    dynamicColumns.forEach(item => {
+      extensionData[item.key] = item.value
+    })
+    return JSON.stringify(extensionData)
+  }
 }

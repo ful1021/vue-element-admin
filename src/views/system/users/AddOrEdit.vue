@@ -94,7 +94,7 @@
 <script>
 import { app } from '@/api/api'
 import action from '@/mixins/action'
-import { preExtensionData } from '@/utils/index'
+import tool from '@/utils/index'
 const defaultInput = {
   id: 0,
   userName: '',
@@ -154,7 +154,7 @@ export default {
       this.biz.initRoles()
     },
     async saveHandler() {
-      this.fromInput.extensionData = await preExtensionData(this.dynamicColumns)
+      this.fromInput.extensionData = await tool.preExtensionData(this.dynamicColumns)
       let msg = '确定要新增？'
       if (this.fromInput.id > 0) {
         msg = '确定要修改？'

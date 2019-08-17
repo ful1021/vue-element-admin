@@ -1,4 +1,4 @@
-import { reloadPage } from '@/utils'
+import tool from '@/utils'
 import { app } from '@/api/api'
 const login = app.tokenAuth.authenticate
 const getInfo = app.session.getCurrentLoginInformations
@@ -70,7 +70,7 @@ const actions = {
         .impersonatedAuthenticate(impersonateResult.impersonationToken)
         .then(response => {
           setBearerToken(commit, response)
-          reloadPage()
+          tool.reloadPage()
           resolve()
         })
         .catch(error => {
@@ -87,7 +87,7 @@ const actions = {
         .impersonatedAuthenticate(impersonateResult.impersonationToken)
         .then(response => {
           setBearerToken(commit, response)
-          reloadPage()
+          tool.reloadPage()
           resolve()
         })
         .catch(error => {

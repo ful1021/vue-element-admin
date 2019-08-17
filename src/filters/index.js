@@ -1,6 +1,10 @@
 // import parseTime, formatTime and set to filter
-export { parseTime, formatTime, enumValue } from '@/utils'
+import tool from '@/utils'
+export { parseTime, formatTime } from '@/utils'
 
+export function enumValue(data, arrs) {
+  return tool.enumValue(data, arrs)
+}
 /**
  * 日期格式化
  */
