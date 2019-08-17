@@ -503,7 +503,11 @@ function generateRouter(item, isParent) {
   const route = {
     path: item.url,
     name: item.name,
-    meta: { title: item.displayName, icon: item.icon },
+    meta: {
+      title: item.displayName,
+      icon: item.icon,
+      grantedPermissions: item.customData.grantedPermissions
+    },
     component: isParent ? Layout : componentsMap[item.name]
   }
   if (children.length > 0) {

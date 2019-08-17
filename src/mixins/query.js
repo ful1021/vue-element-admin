@@ -1,11 +1,10 @@
 import Pagination from '@/components/Pagination'
+import { mapGetters } from 'vuex'
 import biz from '@/utils/biz'
 export default {
   components: { Pagination },
   data() {
     return {
-      auth: abp.auth,
-      session: abp.session,
       biz: biz,
       tableKey: 0,
       isShowLoading: true,
@@ -31,6 +30,9 @@ export default {
         isAdd: true
       }
     }
+  },
+  computed: {
+    ...mapGetters(['session'])
   },
   mounted() {
     this.init()

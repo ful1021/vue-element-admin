@@ -28,7 +28,7 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-if="isImpersonatedLogin">
+          <el-dropdown-item v-if="session.impersonatorUserId > 0">
             <span style="display:block;" @click="backToImpersonator">返回我的账号</span>
           </el-dropdown-item>
           <router-link to="/profile/index">
@@ -70,16 +70,12 @@ export default {
     SizeSelect,
     Search
   },
-  data() {
-    return {
-      isImpersonatedLogin: abp.session.impersonatorUserId > 0
-    }
-  },
   computed: {
     ...mapGetters([
       'sidebar',
       'avatar',
-      'device'
+      'device',
+      'session'
     ])
   },
   methods: {

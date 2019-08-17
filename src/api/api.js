@@ -1,6 +1,5 @@
 import request from '@/utils/request'
-import abp from '@/utils/abp'
-import { extend } from '@/utils'
+import { extend, buildQueryString } from '@/utils'
 
 // module 'app'
 const app = {
@@ -37,7 +36,7 @@ const app = {
           {
             url:
               '/api/TokenAuth/ImpersonatedAuthenticate' +
-              abp.utils.buildQueryString([
+              buildQueryString([
                 { name: 'impersonationToken', value: impersonationToken }
               ]) +
               '',
@@ -54,7 +53,7 @@ const app = {
           {
             url:
               '/api/TokenAuth/LinkedAccountAuthenticate' +
-              abp.utils.buildQueryString([
+              buildQueryString([
                 { name: 'switchAccountToken', value: switchAccountToken }
               ]) +
               '',
@@ -241,6 +240,33 @@ const app = {
           true,
           {
             url: '/api/services/app/Session/GetCurrentLoginInformations',
+            method: 'POST'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getMenus(ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url: '/api/services/app/Session/GetMenusAsync',
+            method: 'POST'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getMenu(menuName, ajaxParams) {
+      return request(
+        extend(
+          true,
+          {
+            url:
+              '/api/services/app/Session/GetMenuAsync' +
+              buildQueryString([{ name: 'menuName', value: menuName }]) +
+              '',
             method: 'POST'
           },
           ajaxParams
@@ -534,9 +560,7 @@ const app = {
           {
             url:
               '/api/services/app/Enums/BatchGetEnumList' +
-              abp.utils.buildQueryString([
-                { name: 'regKeys', value: regKeys }
-              ]) +
+              buildQueryString([{ name: 'regKeys', value: regKeys }]) +
               '',
             method: 'POST'
           },

@@ -1,6 +1,4 @@
-import request from '@/utils/request'
-import abp from '@/utils/abp'
-import { extend, reloadPage } from '@/utils'
+import { reloadPage } from '@/utils'
 import { app } from '@/api/api'
 const login = app.tokenAuth.authenticate
 const getInfo = app.session.getCurrentLoginInformations
@@ -14,6 +12,7 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
+  session: {},
   roles: []
 }
 
@@ -29,6 +28,9 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_SESSION: (state, session) => {
+    state.session = session
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -60,7 +62,7 @@ const actions = {
     return new Promise(async(resolve, reject) => {
       const input = {
         userId: userId,
-        tenantId: abp.session.tenantId
+        tenantId: state.session.tenantId
       }
       const impersonateResult = await app.account.impersonate(input)
       await dispatch('logout')
@@ -97,21 +99,17 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      Promise.all([
-        request.get('/AbpUserConfiguration/GetAll'),
-        getInfo(state.token)
-      ])
+      Promise.all([app.session.getMenus(), getInfo(state.token)])
         .then(values => {
-          const config = values[0]
+          const menus = values[0]
           const data = values[1]
-          window.abp = extend(true, abp, config)
           // const { data } = response
 
           if (!data) {
             reject('Verification failed, please Login again.')
           }
 
-          const { roles, name, avatar, introduction } = data
+          const { roles, name, avatar, introduction, session } = data
 
           // roles must be a non-empty array
           if (!roles || roles.length <= 0) {
@@ -122,8 +120,9 @@ const actions = {
           commit('SET_NAME', name)
           commit('SET_AVATAR', avatar)
           commit('SET_INTRODUCTION', introduction)
+          commit('SET_SESSION', session)
 
-          resolve(extend(true, data, config.nav, config.auth))
+          resolve(menus)
         })
         .catch(error => {
           reject(error)

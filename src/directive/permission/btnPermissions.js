@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import abp from '@/utils/abp'
 
 Vue.directive('has', {
   inserted: function(el, binding, vnode) {
@@ -11,9 +10,9 @@ Vue.directive('has', {
       }
     }
     // console.log(permissionValue)
-    // const btnPermissionsArr = route.meta.btnPermissions
-    // console.log(btnPermissionsArr)
-    if (!abp.auth.isGranted(permissionValue)) {
+    const permissions = route.meta.grantedPermissions
+    // console.log(permissions)
+    if (permissions[permissionValue] !== undefined) {
       if (el.parentNode) {
         el.parentNode.removeChild(el)
       } else {
