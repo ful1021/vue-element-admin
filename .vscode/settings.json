@@ -43,5 +43,8 @@
     "*.suo": true,
     ".github": true,
     "tests": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }
