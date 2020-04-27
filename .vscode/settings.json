@@ -1,6 +1,17 @@
 {
+  /* 开启保存时自动格式化 */
+  "editor.formatOnSave": true,
   "vetur.format.defaultFormatter.js": "vscode-typescript", //让vue中的js按编辑器自带的ts格式进行格式化
-  "editor.wordWrapColumn": 120, //默认值为80，即每行80字符时自动换行。
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.run": "onSave",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue-html"
+  ],
+  /* 排除显示 */
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -18,8 +29,5 @@
     "*.suo": true,
     ".github": true,
     "tests": true
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
   }
 }

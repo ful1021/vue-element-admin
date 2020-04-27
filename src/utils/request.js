@@ -1,15 +1,18 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { MessageBox, Message, Loading } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
+  headers: { 'Content-Type': 'application/json' },
+  // 指示是否跨站点访问控制请求,应该是用证书
+  withCredentials: false,
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 15000 // request timeout
 })
-
+let loadingInstance = null
 // request interceptor
 service.interceptors.request.use(
   config => {
@@ -19,11 +22,20 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
+      config.headers['Authorization'] = getToken()
+    }
+    if (config.loading === true) {
+      loadingInstance = Loading.service({
+        lock: true,
+        text: config.loadText || '加载中...'
+      })
     }
     return config
   },
   error => {
+    if (loadingInstance != null) {
+      loadingInstance.close()
+    }
     // do something with request error
     console.log(error) // for debug
     return Promise.reject(error)
@@ -43,6 +55,9 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    if (loadingInstance != null) {
+      loadingInstance.close()
+    }
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
