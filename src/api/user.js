@@ -1,3 +1,4 @@
+import request from '@/utils/request'
 import axios from 'axios'
 import qs from 'querystring'
 
@@ -35,7 +36,7 @@ export function login(username, password) {
 }
 
 export function getInfo(token) {
-  return service({
+  return request({
     url: '/vue-element-admin/user/info',
     method: 'get',
     params: { token }
@@ -43,7 +44,7 @@ export function getInfo(token) {
 }
 
 export function logout() {
-  return service({
+  return request({
     url: '/vue-element-admin/user/logout',
     method: 'post'
   })

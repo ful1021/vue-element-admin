@@ -1,569 +1,112 @@
+// 动态生成by  https://localhost:44376/Abp/ServiceProxyScript?type=vue
 import request from '@/utils/request'
-import abp from '@/utils/abp'
-import { extend } from '@/utils'
+import { buildQueryString } from '@/utils'
 
-// module 'app'
-const app = {
-  tokenAuth: {
-    authenticate(model, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/TokenAuth/Authenticate',
-            method: 'POST',
-            data: JSON.stringify(model)
-          },
-          ajaxParams
-        )
-      )
-    },
-    logOut(ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/TokenAuth/LogOut',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    impersonatedAuthenticate(impersonationToken, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/TokenAuth/ImpersonatedAuthenticate' +
-              abp.utils.buildQueryString([
-                { name: 'impersonationToken', value: impersonationToken }
-              ]) +
-              '',
-            method: 'POST'
-          },
-          ajaxParams
-        )
-      )
-    },
-    linkedAccountAuthenticate(switchAccountToken, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/TokenAuth/LinkedAccountAuthenticate' +
-              abp.utils.buildQueryString([
-                { name: 'switchAccountToken', value: switchAccountToken }
-              ]) +
-              '',
-            method: 'POST'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getExternalAuthenticationProviders(ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/TokenAuth/GetExternalAuthenticationProviders',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  user: {
-    create(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/Create',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    update(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/Update',
-            method: 'PUT',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    delete(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/User/Delete' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'DELETE'
-          },
-          ajaxParams
-        )
-      )
-    },
-    unlockUser(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/UnlockUser',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    getRoles(ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/GetRoles',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    changeLanguage(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/ChangeLanguage',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    changePassword(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/ChangePassword',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    resetPassword(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/User/ResetPassword',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    get(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/User/Get' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getAll(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/User/GetAll' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'isActive', value: input.isActive },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  session: {
-    getCurrentLoginInformations(ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Session/GetCurrentLoginInformations',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  role: {
-    getRoles(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Role/GetRolesAsync' +
-              abp.utils.buildQueryString([
-                { name: 'permission', value: input.permission }
-              ]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    delete(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Role/Delete' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'DELETE'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getAllPermissions(ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Role/GetAllPermissions',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getRoleForEdit(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Role/GetRoleForEdit' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    createOrUpdateRole(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Role/CreateOrUpdateRole',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    get(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Role/Get' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getAll(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Role/GetAll' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getAllList(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Role/GetAllList' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    create(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Role/Create',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    update(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Role/Update',
-            method: 'PUT',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  tenant: {
-    create(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Tenant/Create',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    delete(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Tenant/Delete' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'DELETE'
-          },
-          ajaxParams
-        )
-      )
-    },
-    get(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Tenant/Get' +
-              abp.utils.buildQueryString([{ name: 'id', value: input.id }]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getAll(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Tenant/GetAll' +
-              abp.utils.buildQueryString([
-                { name: 'keyword', value: input.keyword },
-                { name: 'isActive', value: input.isActive },
-                { name: 'skipCount', value: input.skipCount },
-                { name: 'maxResultCount', value: input.maxResultCount }
-              ]) +
-              '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    update(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Tenant/Update',
-            method: 'PUT',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  enums: {
-    batchGetEnumList(regKeys, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url:
-              '/api/services/app/Enums/BatchGetEnumList' +
-              abp.utils.buildQueryString([
-                { name: 'regKeys', value: regKeys }
-              ]) +
-              '',
-            method: 'POST'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  configuration: {
-    changeUiTheme(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Configuration/ChangeUiTheme',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  account: {
-    isTenantAvailable(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Account/IsTenantAvailable',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    register(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Account/Register',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    impersonate(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Account/Impersonate',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    },
-    backToImpersonator(ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Account/BackToImpersonator',
-            method: 'POST'
-          },
-          ajaxParams
-        )
-      )
-    },
-    switchToLinkedAccount(input, ajaxParams) {
-      return request(
-        extend(
-          true,
-          {
-            url: '/api/services/app/Account/SwitchToLinkedAccount',
-            method: 'POST',
-            data: JSON.stringify(input)
-          },
-          ajaxParams
-        )
-      )
-    }
-  }
+const abp = {}
+const app = {}
+
+abp.abpServiceProxyScriptGetAll = function (model, ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/Abp/ServiceProxyScript' + buildQueryString([{ name: 'type', value: model.type }, { name: 'useCache', value: model.useCache }, { name: 'modules', value: model.modules }, { name: 'controllers', value: model.controllers }, { name: 'actions', value: model.actions }]) + '',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+abp.abpLanguagesSwitch = function (culture, uiCulture, returnUrl, ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/Abp/Languages/Switch' + buildQueryString([{ name: 'culture', value: culture }, { name: 'uiCulture', value: uiCulture }, { name: 'returnUrl', value: returnUrl }]) + '',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+abp.abpApplicationConfigurationScriptGet = function (ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/Abp/ApplicationConfigurationScript',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
 }
 
-export { app }
+app.sampleGet = function (ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/api/TagCenter/sample',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+app.sampleGetAuthorized = function (ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/api/TagCenter/sample/authorized',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+app.abpApplicationConfigurationGet = function (ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/api/abp/application-configuration',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+app.abpApiDefinitionGet = function (model, ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/api/abp/api-definition' + buildQueryString([{ name: 'includeTypes', value: model.includeTypes }]) + '',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+app.abpTenantFindTenantByName = function (name, ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/api/abp/multi-tenancy/tenants/by-name/' + name + '',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+app.abpTenantFindTenantById = function (id, ajaxParams) {
+  return request(
+    Object.assign(
+      {
+        url: '/api/abp/multi-tenancy/tenants/by-id/' + id + '',
+        method: 'GET'
+      },
+      ajaxParams
+    )
+  )
+}
+
+export {
+  abp,
+  app
+}

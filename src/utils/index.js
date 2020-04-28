@@ -45,7 +45,7 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -168,12 +168,12 @@ export function param2Obj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
@@ -252,7 +252,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function() {
+  const later = function () {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -269,7 +269,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function(...args) {
+  return function (...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -352,4 +352,68 @@ export function removeClass(ele, cls) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
   }
+}
+
+export function buildQueryString(parameterInfos, includeQuestionMark) {
+  if (includeQuestionMark === undefined) {
+    includeQuestionMark = true
+  }
+
+  var qs = ''
+
+  function addSeperator() {
+    if (!qs.length) {
+      if (includeQuestionMark) {
+        qs = qs + '?'
+      }
+    } else {
+      qs = qs + '&'
+    }
+  }
+
+  for (var i = 0; i < parameterInfos.length; ++i) {
+    var parameterInfo = parameterInfos[i]
+    if (parameterInfo.value === undefined) {
+      continue
+    }
+
+    if (parameterInfo.value === null) {
+      parameterInfo.value = ''
+    }
+
+    addSeperator()
+
+    if (
+      parameterInfo.value.toJSON &&
+      typeof parameterInfo.value.toJSON === 'function'
+    ) {
+      qs =
+        qs +
+        parameterInfo.name +
+        '=' +
+        encodeURIComponent(parameterInfo.value.toJSON())
+    } else if (
+      Array.isArray(parameterInfo.value) &&
+      parameterInfo.value.length
+    ) {
+      for (var j = 0; j < parameterInfo.value.length; j++) {
+        if (j > 0) {
+          addSeperator()
+        }
+
+        qs =
+          qs +
+          parameterInfo.name +
+          '[' +
+          j +
+          ']=' +
+          encodeURIComponent(parameterInfo.value[j])
+      }
+    } else {
+      qs =
+        qs + parameterInfo.name + '=' + encodeURIComponent(parameterInfo.value)
+    }
+  }
+
+  return qs
 }
