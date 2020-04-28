@@ -1,4 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
+import { app } from '@/api/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -48,28 +49,34 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+      Promise.all([
+        getInfo(state.token),
+        app.abpApplicationConfigurationGet()
+      ])
+        .then(data => {
+          const userInfo = data[0]
+          if (!userInfo) {
+            reject('Verification failed, please Login again.')
+          }
+          const config = data[1]
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
+          const roles = [userInfo.role]
+          // roles must be a non-empty array
+          if (!roles || roles.length <= 0) {
+            reject('getInfo: roles must be a non-null array!')
+          }
 
-        const { roles, name, avatar, introduction } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
+          commit('SET_ROLES', roles)
+          commit('SET_NAME', userInfo.name)
+          commit('SET_AVATAR', '')
+          commit('SET_INTRODUCTION', '')
+          resolve({
+            roles: roles,
+            config: config
+          })
+        }).catch(error => {
+          reject(error)
+        })
     })
   },
 

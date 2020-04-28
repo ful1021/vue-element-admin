@@ -23,7 +23,7 @@ export function login(username, password) {
     client_id: 'TagCenter_Vue',
     client_secret: '1q2w3e*',
     grant_type: 'password',
-    scope: 'TagCenter',
+    // scope: 'TagCenter',
     username: username,
     password: password
   }
@@ -36,11 +36,12 @@ export function login(username, password) {
 }
 
 export function getInfo(token) {
-  return request({
-    url: '/vue-element-admin/user/info',
-    method: 'get',
-    params: { token }
-  })
+  return request(Object.assign({
+    url: '/connect/userinfo',
+    method: 'get'
+  }, {
+    baseURL: process.env.VUE_APP_BASE_Auth
+  }))
 }
 
 export function logout() {
