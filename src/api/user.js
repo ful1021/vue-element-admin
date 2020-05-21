@@ -1,22 +1,5 @@
 import request from '@/utils/request'
-import axios from 'axios'
 import qs from 'querystring'
-
-const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_Auth,
-  timeout: 20000
-})
-
-service.interceptors.request.use(
-  config => {
-    config.headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-    return config
-  }, error => {
-    return Promise.reject(error)
-  }
-)
 
 export function login(username, password) {
   const data = {
@@ -28,11 +11,14 @@ export function login(username, password) {
     password: password
   }
 
-  return service({
+  return request(Object.assign({
     url: '/connect/token',
     method: 'post',
     data: qs.stringify(data)
-  })
+  }, {
+    baseURL: process.env.VUE_APP_BASE_Auth,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  }))
 }
 
 export function getInfo(token) {
@@ -45,8 +31,10 @@ export function getInfo(token) {
 }
 
 export function logout() {
-  return request({
-    url: '/vue-element-admin/user/logout',
+  return request(Object.assign({
+    url: '/connect/endsession',
     method: 'post'
-  })
+  }, {
+    baseURL: process.env.VUE_APP_BASE_Auth
+  }))
 }

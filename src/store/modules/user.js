@@ -34,8 +34,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login(username.trim(), password).then(response => {
-        const { data } = response
+      login(username.trim(), password).then(data => {
         const token = data.token_type + ' ' + data.access_token
         commit('SET_TOKEN', token)
         setToken(token)
@@ -51,7 +50,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       Promise.all([
         getInfo(state.token),
-        app.abpApplicationConfigurationGet()
+        app.abpApplicationConfiguration.get()
       ])
         .then(data => {
           const userInfo = data[0]

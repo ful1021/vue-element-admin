@@ -1,6 +1,7 @@
 <template>
   <div :class="{'hidden':hidden}" class="pagination-container">
     <el-pagination
+      :hide-on-single-page="hideOnSinglePage"
       :background="background"
       :current-page.sync="currentPage"
       :page-size.sync="pageSize"
@@ -18,15 +19,14 @@
 import { scrollTo } from '@/utils/scroll-to'
 
 export default {
-  name: 'Pagination',
   props: {
     total: {
       required: true,
       type: Number
     },
-    page: {
+    skip: {
       type: Number,
-      default: 1
+      default: 0
     },
     limit: {
       type: Number,
@@ -42,13 +42,17 @@ export default {
       type: String,
       default: 'total, sizes, prev, pager, next, jumper'
     },
+    hideOnSinglePage: {
+      type: Boolean,
+      default: true
+    },
     background: {
       type: Boolean,
       default: true
     },
     autoScroll: {
       type: Boolean,
-      default: true
+      default: false
     },
     hidden: {
       type: Boolean,
@@ -58,10 +62,10 @@ export default {
   computed: {
     currentPage: {
       get() {
-        return this.page
+        return this.skip / this.limit + 1
       },
       set(val) {
-        this.$emit('update:page', val)
+        this.$emit('update:skip', (val - 1) * this.limit)
       }
     },
     pageSize: {
@@ -75,13 +79,13 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
+      this.$emit('pagination', val)
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
     },
     handleCurrentChange(val) {
-      this.$emit('pagination', { page: val, limit: this.pageSize })
+      this.$emit('pagination', val)
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
@@ -93,7 +97,8 @@ export default {
 <style scoped>
 .pagination-container {
   background: #fff;
-  padding: 32px 16px;
+  /* padding: 32px 16px; */
+  padding-left: 16px;
 }
 .pagination-container.hidden {
   display: none;

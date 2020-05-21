@@ -20,6 +20,20 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+import './components/Globals/index.js' // 全局组件
+
+import api from '@/api'
+Vue.prototype.$api = api
+
+import * as tool from '@/utils'
+Vue.prototype.$tool = Object.freeze(Object.assign({}, tool))
+
+import biz from '@/bizs/index.js'// 全局业务变量
+Vue.prototype.$biz = Vue.observable(biz)// 让 biz 可响应
+
+import mixin from '@/mixins/index.js'// 全局混入
+Vue.mixin(mixin)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
