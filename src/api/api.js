@@ -1,100 +1,9 @@
-// 动态生成by  https://localhost:44376/Abp/ServiceProxyScript?type=vue
+// 动态生成by  https://localhost:44345/Abp/ServiceProxyScript?type=vue
 import request from '@/utils/request'
 import { buildQueryString } from '@/utils'
 
 // module 'abp'
 const abp = {
-  abpServiceProxyScript: {
-    getAll(model, ajaxParams) {
-      return request(
-        Object.assign(
-          {
-            url: '/Abp/ServiceProxyScript' + buildQueryString([{ name: 'type', value: model.type }, { name: 'useCache', value: model.useCache }, { name: 'modules', value: model.modules }, { name: 'controllers', value: model.controllers }, { name: 'actions', value: model.actions }]) + '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  abpLanguages: {
-    switch(culture, uiCulture, returnUrl, ajaxParams) {
-      return request(
-        Object.assign(
-          {
-            url: '/Abp/Languages/Switch' + buildQueryString([{ name: 'culture', value: culture }, { name: 'uiCulture', value: uiCulture }, { name: 'returnUrl', value: returnUrl }]) + '',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  abpApplicationConfigurationScript: {
-    get(ajaxParams) {
-      return request(
-        Object.assign(
-          {
-            url: '/Abp/ApplicationConfigurationScript',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  }
-}
-
-// module 'app'
-const app = {
-  sample: {
-    get(ajaxParams) {
-      return request(
-        Object.assign(
-          {
-            url: '/api/TagCenter/sample',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getAuthorized(ajaxParams) {
-      return request(
-        Object.assign(
-          {
-            url: '/api/TagCenter/sample/authorized',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
-  sampleApp: {
-    get(ajaxParams) {
-      return request(
-        Object.assign(
-          {
-            url: '/api/app/sample',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    },
-    getAuthorized(ajaxParams) {
-      return request(
-        Object.assign(
-          {
-            url: '/api/app/sample/authorized',
-            method: 'GET'
-          },
-          ajaxParams
-        )
-      )
-    }
-  },
   abpApplicationConfiguration: {
     get(ajaxParams) {
       return request(
@@ -145,12 +54,84 @@ const app = {
       )
     }
   },
-  bookApp: {
-    get(id, ajaxParams) {
+  features: {
+    get(providerName, providerKey, ajaxParams) {
       return request(
         Object.assign(
           {
-            url: '/api/app/book/' + id + '',
+            url: '/api/abp/features' + buildQueryString([{ name: 'providerName', value: providerName }, { name: 'providerKey', value: providerKey }]) + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(providerName, providerKey, input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/abp/features' + buildQueryString([{ name: 'providerName', value: providerName }, { name: 'providerKey', value: providerKey }]) + '',
+            method: 'PUT',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
+  permissions: {
+    get(providerName, providerKey, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/abp/permissions' + buildQueryString([{ name: 'providerName', value: providerName }, { name: 'providerKey', value: providerKey }]) + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(providerName, providerKey, input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/abp/permissions' + buildQueryString([{ name: 'providerName', value: providerName }, { name: 'providerKey', value: providerKey }]) + '',
+            method: 'PUT',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    }
+  }
+}
+
+// module 'account'
+const account = {
+  account: {
+    register(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/account/register',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    }
+  }
+}
+
+// module 'identity'
+const identity = {
+  identityRole: {
+    getAllList(ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/roles/all',
             method: 'GET'
           },
           ajaxParams
@@ -161,7 +142,18 @@ const app = {
       return request(
         Object.assign(
           {
-            url: '/api/app/book' + buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+            url: '/api/identity/roles' + buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    get(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/roles/' + id + '',
             method: 'GET'
           },
           ajaxParams
@@ -172,7 +164,7 @@ const app = {
       return request(
         Object.assign(
           {
-            url: '/api/app/book',
+            url: '/api/identity/roles',
             method: 'POST',
             data: JSON.stringify(input)
           },
@@ -184,7 +176,7 @@ const app = {
       return request(
         Object.assign(
           {
-            url: '/api/app/book/' + id + '',
+            url: '/api/identity/roles/' + id + '',
             method: 'PUT',
             data: JSON.stringify(input)
           },
@@ -196,7 +188,290 @@ const app = {
       return request(
         Object.assign(
           {
-            url: '/api/app/book/' + id + '',
+            url: '/api/identity/roles/' + id + '',
+            method: 'DELETE'
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
+  identityUser: {
+    get(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/' + id + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getList(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users' + buildQueryString([{ name: 'filter', value: input.filter }, { name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    create(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(id, input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/' + id + '',
+            method: 'PUT',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    delete(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/' + id + '',
+            method: 'DELETE'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getRoles(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/' + id + '/roles',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    updateRoles(id, input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/' + id + '/roles',
+            method: 'PUT',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    findByUsername(username, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/by-username/{userName}',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    findByEmail(email, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/by-email/' + email + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
+  identityUserLookup: {
+    findById(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/lookup/' + id + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    findByUserName(userName, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/lookup/by-username/' + userName + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    search(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/lookup/search' + buildQueryString([{ name: 'filter', value: input.filter }, { name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getCount(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/users/lookup/count' + buildQueryString([{ name: 'filter', value: input.filter }]) + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    }
+  },
+  profile: {
+    get(ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/my-profile',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/my-profile',
+            method: 'PUT',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    changePassword(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/identity/my-profile/change-password',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    }
+  }
+}
+
+// module 'multi_tenancy'
+const multi_tenancy = {
+  tenant: {
+    get(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants/' + id + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getList(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants' + buildQueryString([{ name: 'filter', value: input.filter }, { name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    create(input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants',
+            method: 'POST',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    update(id, input, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants/' + id + '',
+            method: 'PUT',
+            data: JSON.stringify(input)
+          },
+          ajaxParams
+        )
+      )
+    },
+    delete(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants/' + id + '',
+            method: 'DELETE'
+          },
+          ajaxParams
+        )
+      )
+    },
+    getDefaultConnectionString(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants/' + id + '/default-connection-string',
+            method: 'GET'
+          },
+          ajaxParams
+        )
+      )
+    },
+    updateDefaultConnectionString(id, defaultConnectionString, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants/' + id + '/default-connection-string' + buildQueryString([{ name: 'defaultConnectionString', value: defaultConnectionString }]) + '',
+            method: 'PUT'
+          },
+          ajaxParams
+        )
+      )
+    },
+    deleteDefaultConnectionString(id, ajaxParams) {
+      return request(
+        Object.assign(
+          {
+            url: '/api/multi-tenancy/tenants/' + id + '/default-connection-string',
             method: 'DELETE'
           },
           ajaxParams
@@ -208,5 +483,7 @@ const app = {
 
 export {
   abp,
-  app
+  account,
+  identity,
+  multi_tenancy
 }

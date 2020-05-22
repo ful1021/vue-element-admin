@@ -3,7 +3,7 @@ import qs from 'querystring'
 
 export function login(username, password) {
   const data = {
-    client_id: 'TagCenter_Vue',
+    client_id: 'PaySystem_App',
     client_secret: '1q2w3e*',
     grant_type: 'password',
     // scope: 'TagCenter',
