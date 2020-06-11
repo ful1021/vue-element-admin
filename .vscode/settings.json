@@ -1,7 +1,9 @@
 {
   /* 开启保存时自动格式化 */
   "editor.formatOnSave": true,
-  "vetur.format.defaultFormatter.js": "vscode-typescript", //让vue中的js按编辑器自带的ts格式进行格式化
+  "vetur.format.defaultFormatter.js": "vscode-typescript", //让函数(名)和后面的括号之间加个空格
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+  // "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },

@@ -26,8 +26,9 @@ import './components/Globals/index.js' // 全局组件
 import api from '@/api'
 Vue.prototype.$api = api
 
-import * as tool from '@/utils'
-Vue.prototype.$tool = Object.freeze(Object.assign({}, tool))
+import * as utils from '@/utils'
+import tool from '@/utils/tool'
+Vue.prototype.$tool = Object.freeze(Object.assign({}, utils, tool))
 
 import biz from '@/bizs/index.js'// 全局业务变量
 Vue.prototype.$biz = Vue.observable(biz)// 让 biz 可响应

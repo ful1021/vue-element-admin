@@ -134,6 +134,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$tool)
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {

@@ -49,9 +49,9 @@ export default {
       const pics = row[this.prop]
       var link = ''
       if (typeof pics === 'string' && pics) {
-        link = this.$tool.getUrl(pics)
+        link = this.$tool.getResourcePath(pics)
       } else if (pics instanceof Array && pics.length > 0) {
-        link = this.$tool.getUrl(pics[0])
+        link = this.$tool.getResourcePath(pics[0])
       }
       return link
     },
@@ -60,10 +60,10 @@ export default {
       const pics = row[this.prop]
       var data = []
       if (typeof pics === 'string' && pics) {
-        data.push(this.$tool.getUrl(pics))
+        data.push(this.$tool.getResourcePath(pics))
       } else if (pics instanceof Array && pics.length > 0) {
         pics.forEach(pic => {
-          data.push(this.$tool.getUrl(pic))
+          data.push(this.$tool.getResourcePath(pic))
         })
       }
       return data
