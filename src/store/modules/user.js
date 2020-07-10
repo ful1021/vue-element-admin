@@ -1,5 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
-import { abp } from '@/api/api'
+// import { abp } from '@/api/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -49,15 +49,15 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       Promise.all([
-        getInfo(state.token),
-        abp.abpApplicationConfiguration.get()
+        getInfo(state.token)
+        // this.$api.pay.abp.abpApplicationConfiguration.get()
       ])
         .then(data => {
           const userInfo = data[0]
           if (!userInfo) {
             reject('Verification failed, please Login again.')
           }
-          const config = data[1]
+          // const config = data[1]
 
           const roles = [userInfo.role]
           // roles must be a non-empty array
@@ -71,7 +71,7 @@ const actions = {
           commit('SET_INTRODUCTION', '')
           resolve({
             roles: roles,
-            config: config
+            config: {}
           })
         }).catch(error => {
           reject(error)

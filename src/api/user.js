@@ -3,7 +3,7 @@ import qs from 'querystring'
 
 export function login(username, password) {
   const data = {
-    client_id: 'PaySystem_App',
+    client_id: 'AuthCenter_ConsoleTestApp',
     client_secret: '1q2w3e*',
     grant_type: 'password',
     // scope: 'TagCenter',
@@ -29,12 +29,15 @@ export function getInfo(token) {
     baseURL: process.env.VUE_APP_BASE_Auth
   }))
 }
+function test() {
 
+}
 export function logout() {
-  return request(Object.assign({
-    url: '/connect/endsession',
-    method: 'post'
-  }, {
-    baseURL: process.env.VUE_APP_BASE_Auth
-  }))
+  return test()
+  // return request(Object.assign({
+  //   url: '/connect/endsession',
+  //   method: 'post'
+  // }, {
+  //   baseURL: process.env.VUE_APP_BASE_Auth
+  // }))
 }

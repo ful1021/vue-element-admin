@@ -1,5 +1,27 @@
 <template>
   <div class="dashboard-editor-container">
+    <div>
+      直接访问具体的微服务：
+      <hr />用户角色管理服务 http://localhost:5000
+      <br />/api/app/sample/authorized
+      <br />支付中心服务 http://localhost:44323
+      <br />/api/PaySystem/sample/authorized
+      <hr />访问网关 https://localhost:44318 或者 http://localhost:53639
+      <br />支付中心服务
+      <br />/Payment/PaySystem/sample/authorized
+      <br />用户角色管理服务
+      <br />/auth/app/sample/authorized
+      <hr />
+    </div>
+    <div>
+      baseURL:
+      <el-input v-model="baseUrl" placeholder="baseUrl"></el-input>url:
+      <el-input v-model="url" placeholder="url"></el-input>method:
+      <el-input v-model="method" placeholder="method"></el-input>
+
+      <el-button type="primary" @click="test">test</el-button>
+    </div>
+    <div>{{ result }}</div>
     <div class="clearfix">
       <pan-thumb :image="avatar" style="float: left">
         Your roles:
@@ -19,12 +41,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import PanThumb from '@/components/PanThumb'
+import request from '@/utils/request'
 
 export default {
   name: 'DashboardEditor',
   components: { PanThumb },
   data() {
     return {
+      baseUrl: 'http://localhost:44323',
+      url: '/api/PaySystem/sample/authorized',
+      method: 'get',
+      result: '',
       emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'
     }
   },
@@ -34,6 +61,18 @@ export default {
       'avatar',
       'roles'
     ])
+  },
+  methods: {
+    async test() {
+      const result = await request(Object.assign({
+        url: this.url,
+        method: this.method
+      }, {
+        baseURL: this.baseUrl
+      }))
+      console.log(result)
+      this.result = result
+    }
   }
 }
 </script>
