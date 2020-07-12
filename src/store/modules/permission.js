@@ -1,52 +1,49 @@
 import { constantRoutes } from '@/router'
 import { app } from '@/api/auth'
+const _import = require('@/router/_import_' + process.env.NODE_ENV) // 获取组件的方法
 import Layout from '@/layout'
+
+export function firstRoute(route, redirect) {
+  if (route.children && route.children.length > 0) {
+    const firstChild = route.children[0]
+    redirect = firstChild.path
+    firstRoute(firstChild)
+  }
+}
 
 /**
  * Filter asynchronous routing tables by recursion
  * @param routes asyncRoutes
  * @param roles
  */
-export function filterAsyncRoutes(routes, roles) {
+export function filterAsyncRoutes(routes, parentRoute) {
   const res = []
-
-  // routes.forEach(route => {
-  //   const tmp = { ...route }
-  //   if (hasPermission(roles, tmp)) {
-  //     if (tmp.children) {
-  //       tmp.children = filterAsyncRoutes(tmp.children, roles)
-  //     }
-  //     res.push(tmp)
-  //   }
-  // })
-
-  routes.forEach(item => {
-    if (item.url) {
-      const tmp = {
-        path: item.url,
-        name: item.elementId,
-        meta: {
-          title: item.displayName,
-          icon: item.icon
+  if (routes.items) {
+    routes.items.forEach(item => {
+      if (item.url) {
+        const tmp = {
+          path: item.url,
+          name: item.elementId,
+          meta: {
+            title: item.displayName,
+            icon: item.icon
+          }
         }
+        if (item.customData.layout === true) {
+          tmp.component = Layout
+        } else if (item.target) {
+          tmp.component = _import(item.target)
+        }
+        if (item.items && item.items.length) {
+          tmp.component = Layout
+          tmp.children = filterAsyncRoutes(item, tmp)
+        }
+        res.push(tmp)
       }
-      if (item.url === 'Layout') { // 针对不在 Views 目录下面的组件，特殊处理
-        item.component = Layout
-      } else {
-        item.component = loadView(item.url)
-      }
-      if (item.items && item.items.length) {
-        item.children = filterAsyncRoutes(item.items)
-      }
-      res.push(tmp)
-    }
-  })
+    })
+  }
 
   return res
-}
-
-export const loadView = (view) => {
-  return (resolve) => require([`@/views/${view}`], resolve)
 }
 
 const state = {
@@ -64,8 +61,23 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      app.menuApp.get({ baseUrl: 'http://localhost:5000' }).then(asyncRoutes => {
-        const accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+      // const accessedRoutes = asyncRoutes || []
+      // commit('SET_ROUTES', accessedRoutes)
+      // resolve(accessedRoutes)
+
+      app.menuApp.get({ baseURL: 'http://localhost:37922' }).then(asyncRoutes => {
+        const accessedRoutes = filterAsyncRoutes(asyncRoutes)
+
+        // 默认跳转第一个页面
+        const routeRoot = accessedRoutes[0]
+        if (routeRoot) {
+          const redirect = routeRoot.path
+          firstRoute(routeRoot, redirect)
+          console.log(redirect)
+          accessedRoutes.push({ path: '/', redirect: redirect })
+        }
+        console.log(JSON.stringify(accessedRoutes))
+
         accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
 
         commit('SET_ROUTES', accessedRoutes)
