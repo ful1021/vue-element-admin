@@ -6,9 +6,10 @@ import Layout from '@/layout'
 export function firstRoute(route, redirect) {
   if (route.children && route.children.length > 0) {
     const firstChild = route.children[0]
-    redirect = firstChild.path
+    redirect = redirect + '/' + firstChild.path
     firstRoute(firstChild)
   }
+  return redirect
 }
 
 /**
@@ -61,22 +62,17 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      // const accessedRoutes = asyncRoutes || []
-      // commit('SET_ROUTES', accessedRoutes)
-      // resolve(accessedRoutes)
-
       app.menuApp.get({ baseURL: 'http://localhost:37922' }).then(asyncRoutes => {
         const accessedRoutes = filterAsyncRoutes(asyncRoutes)
 
         // 默认跳转第一个页面
-        const routeRoot = accessedRoutes[0]
-        if (routeRoot) {
-          const redirect = routeRoot.path
-          firstRoute(routeRoot, redirect)
-          console.log(redirect)
-          accessedRoutes.push({ path: '/', redirect: redirect })
-        }
-        console.log(JSON.stringify(accessedRoutes))
+        // const routeRoot = accessedRoutes[0]
+        // if (routeRoot) {
+        //   const redirect = routeRoot.path
+        //   firstRoute(routeRoot, redirect)
+        //   console.log(redirect)
+        //   accessedRoutes.push({ path: '/', redirect: redirect })
+        // }
 
         accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
 
