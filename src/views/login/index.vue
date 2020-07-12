@@ -86,6 +86,8 @@
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 
+import { filterAsyncRoutes } from '@/store/modules/permission'
+
 export default {
   name: 'Login',
   components: { SocialSign },
@@ -134,8 +136,13 @@ export default {
     }
   },
   created() {
-    console.log(this.$tool)
+    console.log(this.$api)
     // window.addEventListener('storage', this.afterQRScan)
+
+    const routes = '{"name":"Main","displayName":"Main","items":[{"name":"Dashboard","displayName":"首页","order":1000,"url":"example/list","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_Dashboard","cssClass":null},{"name":"Roles","displayName":"角色管理","order":1000,"url":"roles","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_Roles","cssClass":null},{"name":"Users","displayName":"员工管理","order":1000,"url":"users","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_Users","cssClass":null},{"name":"AuthManager","displayName":"授权管理","order":1000,"url":"authManager","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_AuthManager","cssClass":null},{"name":"System","displayName":"系统设置","order":1000,"url":"system","icon":null,"isLeaf":false,"target":null,"isDisabled":false,"items":[{"name":"System.DictData","displayName":"字典维护","order":1000,"url":"/dict-data","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_System.DictData","cssClass":null},{"name":"System.AuthorizationTree","displayName":"授权字典","order":1000,"url":"/authorizationTree","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_System.AuthorizationTree","cssClass":null},{"name":"System.Notice","displayName":"公告管理","order":1000,"url":"/notice","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_System.Notice","cssClass":null},{"name":"System.Settings","displayName":"系统设置","order":1000,"url":"/settings","icon":null,"isLeaf":true,"target":null,"isDisabled":false,"items":[],"customData":null,"elementId":"MenuItem_System.Settings","cssClass":null}],"customData":null,"elementId":"MenuItem_System","cssClass":null}],"customData":null}'
+
+    const asyncRouter = filterAsyncRoutes(routes)
+    console.log(asyncRouter)
   },
   mounted() {
     if (this.loginForm.username === '') {
